@@ -1,0 +1,62 @@
+---
+// Dashboard de exemplo — referência viva do design system.
+// Copie este arquivo (ou templates/dashboard-starter) para criar um novo.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import KpiCard from "../../components/KpiCard.astro";
+import SalesChart from "../../components/SalesChart.tsx";
+
+const tabela = [
+  { regiao: "Sudeste", receita: "R$ 1,2M", var: "+8%", dir: "up" },
+  { regiao: "Sul", receita: "R$ 740k", var: "+3%", dir: "up" },
+  { regiao: "Nordeste", receita: "R$ 610k", var: "-2%", dir: "down" },
+  { regiao: "Centro-Oeste", receita: "R$ 320k", var: "+5%", dir: "up" },
+];
+---
+
+<BaseLayout title="Vendas — Exemplo" subtitle="Dashboard de referência">
+  <h1 style="font-size: var(--fs-2xl); margin: 0 0 var(--space-5)">Vendas</h1>
+
+  <!-- Linha de KPIs -->
+  <div class="qv-grid" style="margin-bottom: var(--space-5)">
+    <div class="qv-col-3"><KpiCard label="Receita (mês)" value="R$ 520k" trend="11% vs. meta" direction="up" highlight /></div>
+    <div class="qv-col-3"><KpiCard label="Ticket médio" value="R$ 1.840" trend="4%" direction="up" /></div>
+    <div class="qv-col-3"><KpiCard label="Novos clientes" value="312" trend="2%" direction="down" /></div>
+    <div class="qv-col-3"><KpiCard label="Conversão" value="3,4%" trend="estável" direction="none" /></div>
+  </div>
+
+  <!-- Gráfico + tabela -->
+  <div class="qv-grid">
+    <div class="qv-col-6 qv-card">
+      <h2 style="font-size: var(--fs-lg); margin: 0 0 var(--space-4)">Receita x Meta</h2>
+      <SalesChart client:load />
+    </div>
+
+    <div class="qv-col-6 qv-card">
+      <h2 style="font-size: var(--fs-lg); margin: 0 0 var(--space-4)">Por região</h2>
+      <table class="qv-table">
+        <thead>
+          <tr>
+            <th>Região</th>
+            <th style="text-align:right">Receita</th>
+            <th style="text-align:right">Variação</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            tabela.map((l) => (
+              <tr>
+                <td>{l.regiao}</td>
+                <td style="text-align:right">{l.receita}</td>
+                <td style="text-align:right; color: var(--color-text)">
+                  <span class={l.dir === "up" ? "qv-kpi__trend--up" : "qv-kpi__trend--down"}>
+                    {l.dir === "up" ? "▲" : "▼"} {l.var}
+                  </span>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</BaseLayout>

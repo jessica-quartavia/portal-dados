@@ -1,0 +1,72 @@
+---
+// Portal — lista todos os dashboards do Grupo Quarta Via.
+// Para adicionar um novo dashboard, inclua uma entrada em `dashboards` abaixo.
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const dashboards = [
+  {
+    slug: "exemplo-vendas",
+    titulo: "Vendas — Exemplo",
+    descricao: "Modelo de referência: KPIs, gráfico e tabela no padrão Quarta Via.",
+    tag: "Exemplo",
+  },
+  // Adicione novos dashboards aqui:
+  // { slug: "financeiro", titulo: "Financeiro", descricao: "...", tag: "Financeiro" },
+];
+---
+
+<BaseLayout title="Portal de Dashboards" subtitle="Central de dados do grupo">
+  <section style="margin-bottom: var(--space-6)">
+    <h1 style="font-size: var(--fs-2xl); margin: 0 0 var(--space-2)">Dashboards</h1>
+    <p style="color: var(--color-text-muted); margin: 0">
+      Selecione um painel. Todos seguem o
+      <a href="https://github.com" style="color: var(--color-link)">design system</a> do grupo.
+    </p>
+  </section>
+
+  <div class="qv-grid">
+    {
+      dashboards.map((d) => (
+        <a class="qv-col-4 qv-card qv-dash-card" href={`/dashboards/${d.slug}`}>
+          <span class="qv-badge qv-badge--warning" style="background: var(--color-primary-tint); color: var(--color-primary)">
+            {d.tag}
+          </span>
+          <h2 class="qv-dash-card__title">{d.titulo}</h2>
+          <p class="qv-dash-card__desc">{d.descricao}</p>
+          <span class="qv-dash-card__cta">Abrir →</span>
+        </a>
+      ))
+    }
+  </div>
+
+  <style>
+    .qv-dash-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      text-decoration: none;
+      color: var(--color-text);
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .qv-dash-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .qv-dash-card__title {
+      font-size: var(--fs-lg);
+      margin: var(--space-2) 0 0;
+    }
+    .qv-dash-card__desc {
+      font-size: var(--fs-sm);
+      color: var(--color-text-muted);
+      margin: 0;
+      flex: 1;
+    }
+    .qv-dash-card__cta {
+      color: var(--color-primary);
+      font-size: var(--fs-sm);
+      font-weight: var(--fw-semibold);
+    }
+  </style>
+</BaseLayout>

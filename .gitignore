@@ -1,0 +1,18 @@
+# dependências
+node_modules/
+
+# build
+dist/
+.astro/
+
+# logs / env
+*.log
+.env
+.env.*
+!.env.example
+
+# SO / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,35 @@
+---
+// KPI card — número grande + label + tendência. Usa tokens do design system.
+interface Props {
+  label: string;
+  value: string;
+  trend?: string;
+  direction?: "up" | "down" | "none";
+  highlight?: boolean; // usa o laranja quando é o KPI principal da tela
+}
+const { label, value, trend, direction = "none", highlight = false } = Astro.props;
+---
+
+<div class="qv-kpi">
+  <p class="qv-kpi__label">{label}</p>
+  <p class="qv-kpi__value" style={highlight ? "color: var(--color-primary)" : ""}>
+    {value}
+  </p>
+  {
+    trend && (
+      <span class={`qv-kpi__trend qv-kpi__trend--${direction === "up" ? "up" : direction === "down" ? "down" : "none"}`}>
+        {direction === "up" ? "▲" : direction === "down" ? "▼" : ""} {trend}
+      </span>
+    )
+  }
+</div>
+
+<style>
+  .qv-kpi__trend {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+  }
+  .qv-kpi__trend--none {
+    color: var(--color-text-muted);
+  }
+</style>

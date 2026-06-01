@@ -1,0 +1,43 @@
+---
+// TEMPLATE de dashboard — copie para src/pages/dashboards/<slug>.astro
+// Os caminhos de import abaixo já assumem o destino src/pages/dashboards/.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import KpiCard from "../../components/KpiCard.astro";
+// import SalesChart from "../../components/SalesChart.tsx"; // troque pelo seu gráfico
+
+// TODO: substitua pelos dados reais (fetch, props, etc.)
+const titulo = "Novo Dashboard";
+---
+
+<BaseLayout title={titulo} subtitle="Descrição curta do painel">
+  <h1 style="font-size: var(--fs-2xl); margin: 0 0 var(--space-5)">{titulo}</h1>
+
+  <!-- 1) Linha de KPIs (colunas de 3) -->
+  <div class="qv-grid" style="margin-bottom: var(--space-5)">
+    <div class="qv-col-3"><KpiCard label="Indicador A" value="0" highlight /></div>
+    <div class="qv-col-3"><KpiCard label="Indicador B" value="0" trend="0%" direction="up" /></div>
+    <div class="qv-col-3"><KpiCard label="Indicador C" value="0" trend="0%" direction="down" /></div>
+    <div class="qv-col-3"><KpiCard label="Indicador D" value="0" /></div>
+  </div>
+
+  <!-- 2) Conteúdo principal: gráficos (col-6) e/ou tabela (col-6/col-12) -->
+  <div class="qv-grid">
+    <div class="qv-col-6 qv-card">
+      <h2 style="font-size: var(--fs-lg); margin: 0 0 var(--space-4)">Gráfico</h2>
+      <!-- <SalesChart client:load /> -->
+      <p style="color: var(--color-text-muted)">Adicione aqui sua ilha de gráfico (client:load).</p>
+    </div>
+
+    <div class="qv-col-6 qv-card">
+      <h2 style="font-size: var(--fs-lg); margin: 0 0 var(--space-4)">Tabela</h2>
+      <table class="qv-table">
+        <thead>
+          <tr><th>Coluna</th><th style="text-align:right">Valor</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Exemplo</td><td style="text-align:right">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</BaseLayout>

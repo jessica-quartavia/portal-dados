@@ -1,0 +1,263 @@
+/* ==========================================================================
+   Grupo Quarta Via — Design System (theme.css)
+   Variáveis CSS derivadas de tokens.json (fonte da verdade).
+   Importe este arquivo em TODO dashboard:  @import '.../theme.css';
+   ========================================================================== */
+
+:root {
+  /* Marca / acento — usar laranja APENAS para ação e destaque */
+  --color-primary: #f47920;
+  --color-primary-hover: #d8661a;
+  --color-primary-active: #bf5613;
+  --color-primary-soft: #ffb066;
+  --color-primary-tint: rgba(244, 121, 32, 0.12);
+
+  /* Fundo / superfícies (dark-first) */
+  --color-bg: #0d0d0d;
+  --color-surface: #1a1a1a;
+  --color-surface-2: #222222;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+
+  /* Bordas */
+  --color-border: #2a2a2a;
+  --color-border-strong: #3a3a3a;
+  --color-border-focus: #f47920;
+
+  /* Texto */
+  --color-text: #ffffff;
+  --color-text-muted: #b3b3b3;
+  --color-text-subtle: #7a7a7a;
+  --color-text-on-primary: #0d0d0d;
+  --color-link: #f47920;
+
+  /* Semânticas */
+  --color-success: #3fb950;
+  --color-warning: #f5a623;
+  --color-danger: #e5484d;
+  --color-info: #3b82f6;
+  --color-success-soft: rgba(63, 185, 80, 0.14);
+  --color-warning-soft: rgba(245, 166, 35, 0.14);
+  --color-danger-soft: rgba(229, 72, 77, 0.14);
+  --color-info-soft: rgba(59, 130, 246, 0.14);
+
+  /* Gráficos */
+  --chart-1: #f47920;
+  --chart-2: #ffb066;
+  --chart-3: #8ab4f8;
+  --chart-4: #3fb950;
+  --chart-5: #c792ea;
+  --chart-6: #56d4dd;
+  --chart-7: #e5484d;
+  --chart-8: #f5a623;
+  --chart-grid: #2a2a2a;
+  --chart-axis: #7a7a7a;
+  --chart-tooltip-bg: #222222;
+
+  /* Tipografia */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  --fs-xs: 12px;
+  --fs-sm: 14px;
+  --fs-base: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 24px;
+  --fs-2xl: 32px;
+  --fs-kpi: 40px;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --lh-tight: 1.2;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.7;
+
+  /* Espaçamento (escala base 4/8px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Raios */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   Base — aplica o tema dark globalmente
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Foco visível e acessível em qualquer elemento interativo */
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Componentes utilitários (classes prontas — opcional, reaproveitáveis)
+   -------------------------------------------------------------------------- */
+
+/* Card / painel */
+.qv-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+/* KPI card */
+.qv-kpi {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+.qv-kpi__label {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-2);
+}
+.qv-kpi__value {
+  font-size: var(--fs-kpi);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  margin: 0;
+}
+.qv-kpi__trend--up {
+  color: var(--color-success);
+}
+.qv-kpi__trend--down {
+  color: var(--color-danger);
+}
+
+/* Botões */
+.qv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.qv-btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+.qv-btn--primary:hover {
+  background-color: var(--color-primary-hover);
+}
+.qv-btn--secondary {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+.qv-btn--secondary:hover {
+  border-color: var(--color-primary);
+}
+.qv-btn--ghost {
+  background-color: transparent;
+  color: var(--color-text-muted);
+}
+.qv-btn--ghost:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface-2);
+}
+
+/* Badge / tag */
+.qv-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+}
+.qv-badge--success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+.qv-badge--warning {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+.qv-badge--danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+/* Tabela de dados */
+.qv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.qv-table th {
+  text-align: left;
+  color: var(--color-text-muted);
+  font-weight: var(--fw-semibold);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+.qv-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+.qv-table tbody tr:hover {
+  background-color: var(--color-surface-2);
+}
+
+/* Grid de dashboard */
+.qv-grid {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(12, 1fr);
+}
+.qv-col-3 { grid-column: span 3; }
+.qv-col-4 { grid-column: span 4; }
+.qv-col-6 { grid-column: span 6; }
+.qv-col-12 { grid-column: span 12; }
+
+@media (max-width: 1024px) {
+  .qv-col-3, .qv-col-4 { grid-column: span 6; }
+}
+@media (max-width: 640px) {
+  .qv-col-3, .qv-col-4, .qv-col-6 { grid-column: span 12; }
+}
