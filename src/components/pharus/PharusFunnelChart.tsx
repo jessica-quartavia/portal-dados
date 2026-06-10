@@ -15,6 +15,20 @@ interface Props {
   data: StepDistribution[];
 }
 
+const tooltipStyle = {
+  contentStyle: {
+    ...rechartsTheme.tooltip.contentStyle,
+    borderRadius: 10,
+    padding: '10px 14px',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.55)',
+  },
+  labelStyle: {
+    ...rechartsTheme.tooltip.labelStyle,
+    fontWeight: 600,
+    marginBottom: 4,
+  },
+};
+
 export default function PharusFunnelChart({ data }: Props) {
   const chartData = data.map((d) => ({
     label: d.step.label,
@@ -23,8 +37,8 @@ export default function PharusFunnelChart({ data }: Props) {
   }));
 
   return (
-    <ResponsiveContainer width="100%" height={320}>
-      <BarChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 80 }}>
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={chartData} margin={{ top: 4, right: 8, left: -8, bottom: 72 }}>
         <CartesianGrid
           stroke={rechartsTheme.grid.stroke}
           strokeDasharray={rechartsTheme.grid.strokeDasharray}
@@ -32,28 +46,33 @@ export default function PharusFunnelChart({ data }: Props) {
         />
         <XAxis
           dataKey="label"
-          stroke={rechartsTheme.axis.stroke}
+          stroke="transparent"
           tick={{ fill: qvColors.textMuted, fontSize: 11 }}
-          angle={-40}
+          tickLine={false}
+          angle={-38}
           textAnchor="end"
           interval={0}
         />
         <YAxis
-          stroke={rechartsTheme.axis.stroke}
-          tick={rechartsTheme.axis.tick}
+          stroke="transparent"
+          tick={{ fill: qvColors.textMuted, fontSize: 12 }}
+          tickLine={false}
+          axisLine={false}
           allowDecimals={false}
+          width={28}
         />
         <Tooltip
-          contentStyle={rechartsTheme.tooltip.contentStyle}
-          labelStyle={rechartsTheme.tooltip.labelStyle}
-          cursor={{ fill: 'rgba(244,121,32,0.08)' }}
+          contentStyle={tooltipStyle.contentStyle}
+          labelStyle={tooltipStyle.labelStyle}
+          cursor={{ fill: 'rgba(244,121,32,0.06)' }}
           formatter={(value: number) => [value, 'Clientes']}
         />
-        <Bar dataKey="clientes" radius={[4, 4, 0, 0]}>
+        <Bar dataKey="clientes" radius={[4, 4, 0, 0]} maxBarSize={36}>
           {chartData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
               fill={entry.phase === 'onboarding' ? qvCategorical[0] : qvCategorical[2]}
+              opacity={entry.clientes === 0 ? 0.25 : 1}
             />
           ))}
         </Bar>

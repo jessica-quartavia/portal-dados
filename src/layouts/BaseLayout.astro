@@ -19,20 +19,40 @@ const { title = "Grupo Quarta Via", subtitle } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <header class="qv-header">
-      <div class="qv-header__brand">
-        <span class="qv-logo" aria-hidden="true">QV</span>
-        <div>
-          <strong>Grupo Quarta Via</strong>
-          {subtitle && <span class="qv-header__subtitle">{subtitle}</span>}
-        </div>
+      <div class="qv-header__inner">
+        <a class="qv-header__brand" href="/">
+          <span class="qv-logo" aria-hidden="true">QV</span>
+          <div class="qv-header__brand-text">
+            <span class="qv-header__brand-name">Grupo Quarta Via</span>
+            {subtitle && <span class="qv-header__subtitle">{subtitle}</span>}
+          </div>
+        </a>
+
+        <nav class="qv-header__nav">
+          <a class="qv-header__back" href="/">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Portal
+          </a>
+
+          <form method="post" action="/api/logout" style="margin:0">
+            <button type="submit" class="qv-header__logout" title="Sair">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M5 2H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2M9 10l3-3-3-3M12 7H5"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Sair
+            </button>
+          </form>
+        </nav>
       </div>
-      <a class="qv-btn qv-btn--ghost" href="/">← Portal</a>
     </header>
 
     <main class="qv-main">
@@ -40,40 +60,140 @@ const { title = "Grupo Quarta Via", subtitle } = Astro.props;
     </main>
 
     <style>
+      /* ── Header ────────────────────────────────────────── */
       .qv-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background-color: var(--header-bg);
+        backdrop-filter: var(--header-blur);
+        -webkit-backdrop-filter: var(--header-blur);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: var(--shadow-header);
+      }
+
+      .qv-header__inner {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 var(--space-6);
+        height: 56px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: var(--space-4) var(--space-6);
-        border-bottom: 1px solid var(--color-border);
-        background: var(--color-surface);
+        gap: var(--space-4);
       }
+
       .qv-header__brand {
         display: flex;
         align-items: center;
         gap: var(--space-3);
+        text-decoration: none;
+        color: var(--color-text);
+        flex-shrink: 0;
       }
-      .qv-header__subtitle {
-        display: block;
-        font-size: var(--fs-sm);
-        color: var(--color-text-muted);
-      }
+      .qv-header__brand:hover { text-decoration: none; }
+
       .qv-logo {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         border-radius: var(--radius-md);
-        background: var(--color-primary);
+        background: var(--gradient-primary);
         color: var(--color-text-on-primary);
         font-weight: var(--fw-bold);
-        font-size: var(--fs-sm);
+        font-size: 11px;
+        letter-spacing: 0.02em;
+        box-shadow: 0 2px 8px rgba(244, 121, 32, 0.35);
+        flex-shrink: 0;
       }
+
+      .qv-header__brand-text {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+      }
+
+      .qv-header__brand-name {
+        font-size: var(--fs-sm);
+        font-weight: var(--fw-semibold);
+        color: var(--color-text);
+        line-height: 1;
+        letter-spacing: -0.01em;
+      }
+
+      .qv-header__subtitle {
+        font-size: 11px;
+        color: var(--color-text-subtle);
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+      }
+
+      .qv-header__nav {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .qv-header__back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-medium);
+        color: var(--color-text-muted);
+        padding: 6px var(--space-3);
+        border-radius: var(--radius-md);
+        border: 1px solid transparent;
+        text-decoration: none;
+        transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+        letter-spacing: 0.01em;
+      }
+      .qv-header__back:hover {
+        color: var(--color-text);
+        background-color: var(--color-surface-2);
+        border-color: var(--color-border);
+        text-decoration: none;
+      }
+
+      .qv-header__logout {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-sans);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-medium);
+        color: var(--color-text-subtle);
+        padding: 6px var(--space-3);
+        border-radius: var(--radius-md);
+        border: 1px solid transparent;
+        background: transparent;
+        cursor: pointer;
+        transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+        height: auto;
+        letter-spacing: 0.01em;
+      }
+      .qv-header__logout:hover {
+        color: var(--color-danger);
+        background-color: var(--color-danger-soft);
+        border-color: rgba(229,72,77,.2);
+      }
+
+      /* ── Main ────────────────────────────────────────── */
       .qv-main {
-        max-width: 1280px;
+        max-width: 1400px;
         margin: 0 auto;
         padding: var(--space-6);
+      }
+
+      @media (max-width: 640px) {
+        .qv-header__inner { padding: 0 var(--space-4); }
+        .qv-main { padding: var(--space-4); }
+        .qv-header__subtitle { display: none; }
       }
     </style>
   </body>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { getSupabase } from '../../lib/supabaseClient';
+import { getPharusSupabase } from '../../lib/supabasePharusClient';
 import {
   computeKpis,
   getFunnelProgress,
@@ -236,7 +236,7 @@ export default function PharusJourneyDashboard() {
   const [searchNotFound, setSearchNotFound] = useState(false);
 
   const fetchData = useCallback(async () => {
-    const { data, error: fetchError } = await getSupabase()
+    const { data, error: fetchError } = await getPharusSupabase()
       .schema('core')
       .from('user_progress')
       .select('id,user_id,step,created_at,completed_at')
@@ -255,7 +255,7 @@ export default function PharusJourneyDashboard() {
     setLoading(true);
     fetchData().finally(() => setLoading(false));
 
-    const sb = getSupabase();
+    const sb = getPharusSupabase();
     const channel = sb
       .channel('pharus-user-progress')
       .on(

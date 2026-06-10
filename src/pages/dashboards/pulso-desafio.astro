@@ -1,0 +1,11 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PulsoDesafioDashboard from "../../components/pulso-desafio/PulsoDesafioDashboard";
+---
+
+<BaseLayout
+  title="Pulso Desafio — Agendamentos"
+  subtitle="Agendamentos, comparecimento, no-shows e renda dos leads do desafio"
+>
+  <PulsoDesafioDashboard client:only="react" />
+</BaseLayout>

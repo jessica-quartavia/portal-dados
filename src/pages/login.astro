@@ -1,0 +1,195 @@
+---
+import "../../packages/design-system/theme.css";
+import LoginWithGoogle from "../components/LoginWithGoogle";
+import { createAuthServerClient } from '../lib/supabase-server';
+import { isAllowedEmail } from '../lib/auth';
+
+// Já autenticado com e-mail válido → vai direto ao portal
+const supabase = createAuthServerClient(Astro.request, Astro.cookies);
+const { data: { session } } = await supabase.auth.getSession();
+if (session && isAllowedEmail(session.user.email)) {
+  return Astro.redirect('/');
+}
+
+const errorParam = Astro.url.searchParams.get('error');
+const ERROR_MESSAGES: Record<string, string> = {
+  unauthorized_domain: 'Acesso restrito a contas corporativas @quartavia.com.br.',
+  missing_code:        'Callback OAuth sem código de autorização.',
+  auth_failed:         'Falha na autenticação com o Google. Tente novamente.',
+  exchange_failed:     'Falha ao concluir login com Google. Tente novamente.',
+  session_missing:     'Sessão não encontrada após autenticação. Tente novamente.',
+};
+const errorMessage = errorParam ? (ERROR_MESSAGES[errorParam] ?? `Erro de autenticação: ${errorParam}`) : '';
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Acesso · Quarta Via</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="login-body">
+
+    <div class="login-glow" aria-hidden="true"></div>
+
+    <main class="login-main">
+      <div class="login-card">
+
+        <div class="login-brand">
+          <div class="login-logo" aria-hidden="true">QV</div>
+          <div class="login-brand-text">
+            <span class="login-brand-name">Grupo Quarta Via</span>
+            <span class="login-brand-sub">Dados & Automação</span>
+          </div>
+        </div>
+
+        <div class="login-divider"></div>
+
+        <div class="login-heading">
+          <h1 class="login-title">Acesso aos Dashboards</h1>
+          <p class="login-subtitle">
+            Entre com sua conta corporativa Google da Quarta Via
+          </p>
+        </div>
+
+        {errorMessage && (
+          <div class="login-error" role="alert">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7 4v3.5M7 9.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            {errorMessage}
+          </div>
+        )}
+
+        <LoginWithGoogle client:load />
+
+        <p class="login-hint">
+          Acesso restrito a contas <strong>@quartavia.com.br</strong>
+        </p>
+
+      </div>
+    </main>
+
+  </body>
+</html>
+
+<style>
+  .login-body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg);
+    position: relative;
+    overflow: hidden;
+  }
+  .login-glow {
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 400px;
+    background: radial-gradient(ellipse at center, rgba(244,121,32,.09) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .login-main {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: var(--space-5);
+    display: flex;
+    justify-content: center;
+  }
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--color-surface);
+    background-image: var(--gradient-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-7) var(--space-6);
+    box-shadow: 0 8px 48px rgba(0,0,0,.6), 0 2px 12px rgba(0,0,0,.4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .login-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .login-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--gradient-primary);
+    color: var(--color-text-on-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--fw-bold);
+    font-size: 13px;
+    letter-spacing: .02em;
+    box-shadow: 0 2px 12px rgba(244,121,32,.4);
+    flex-shrink: 0;
+  }
+  .login-brand-text { display: flex; flex-direction: column; gap: 2px; }
+  .login-brand-name {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+    letter-spacing: -.01em;
+  }
+  .login-brand-sub { font-size: var(--fs-xs); color: var(--color-text-subtle); }
+  .login-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: 0 calc(-1 * var(--space-6));
+  }
+  .login-heading { display: flex; flex-direction: column; gap: var(--space-2); }
+  .login-title {
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-bold);
+    margin: 0;
+    letter-spacing: -.02em;
+    color: var(--color-text);
+    line-height: var(--lh-tight);
+  }
+  .login-subtitle {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: var(--lh-relaxed);
+  }
+  .login-error {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+    border: 1px solid rgba(229,72,77,.25);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+  }
+  .login-error svg { flex-shrink: 0; }
+  .login-hint {
+    font-size: var(--fs-xs);
+    color: var(--color-text-subtle);
+    text-align: center;
+    margin: 0;
+  }
+  .login-hint strong { color: var(--color-text-muted); font-weight: var(--fw-medium); }
+</style>

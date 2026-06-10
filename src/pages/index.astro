@@ -1,7 +1,6 @@
 ---
-// Portal — lista todos os dashboards do Grupo Quarta Via.
-// Para adicionar um novo dashboard, inclua uma entrada em `dashboards` abaixo.
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SupportTicketCard from "../components/SupportTicketCard.astro";
 
 const dashboards = [
   {
@@ -9,68 +8,337 @@ const dashboards = [
     titulo: "Vendas — Exemplo",
     descricao: "Modelo de referência: KPIs, gráfico e tabela no padrão Quarta Via.",
     tag: "Exemplo",
+    devOnly: true,   // oculto no portal; rota continua acessível para dev
   },
   {
     slug: "pharus",
     titulo: "Pharus Journey Analytics",
     descricao: "Acompanhamento em tempo real da jornada dos clientes no App Pharus.",
-    tag: "Pharus",
+    tag: "App Pharus",
+  },
+  {
+    slug: "pulso-desafio",
+    titulo: "Pulso Desafio — Agendamentos",
+    descricao: "Acompanhamento em tempo real de agendas, realizadas, futuras, no-shows e renda dos leads do desafio.",
+    tag: "Comercial",
   },
 ];
+
+// Apenas dashboards visíveis para o usuário final
+const visibleDashboards = dashboards.filter((d) => !d.devOnly);
+
+// Pré-normaliza server-side: sem acentos, minúsculo
+function buildSearch(d: typeof dashboards[number]) {
+  return `${d.titulo} ${d.tag} ${d.descricao}`
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase();
+}
 ---
 
 <BaseLayout title="Portal de Dashboards" subtitle="Central de dados do grupo">
-  <section style="margin-bottom: var(--space-6)">
-    <h1 style="font-size: var(--fs-2xl); margin: 0 0 var(--space-2)">Dashboards</h1>
-    <p style="color: var(--color-text-muted); margin: 0">
-      Selecione um painel. Todos seguem o
-      <a href="https://github.com" style="color: var(--color-link)">design system</a> do grupo.
-    </p>
-  </section>
 
-  <div class="qv-grid">
-    {
-      dashboards.map((d) => (
-        <a class="qv-col-4 qv-card qv-dash-card" href={`/dashboards/${d.slug}`}>
-          <span class="qv-badge qv-badge--warning" style="background: var(--color-primary-tint); color: var(--color-primary)">
-            {d.tag}
-          </span>
-          <h2 class="qv-dash-card__title">{d.titulo}</h2>
-          <p class="qv-dash-card__desc">{d.descricao}</p>
-          <span class="qv-dash-card__cta">Abrir →</span>
-        </a>
-      ))
-    }
+  <div class="portal-hero">
+    <div class="portal-hero__content">
+      <p class="portal-hero__eyebrow">Grupo Quarta Via</p>
+      <h1 class="portal-hero__title">Portal de Dashboards</h1>
+      <p class="portal-hero__desc">
+        Dados em tempo real para apoiar decisões, otimizar processos e melhorar a experiência dos times.
+      </p>
+    </div>
   </div>
 
-  <style>
-    .qv-dash-card {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      text-decoration: none;
-      color: var(--color-text);
-      transition: border-color 0.15s ease, transform 0.15s ease;
-    }
-    .qv-dash-card:hover {
-      border-color: var(--color-primary);
-      transform: translateY(-2px);
-      text-decoration: none;
-    }
-    .qv-dash-card__title {
-      font-size: var(--fs-lg);
-      margin: var(--space-2) 0 0;
-    }
-    .qv-dash-card__desc {
-      font-size: var(--fs-sm);
-      color: var(--color-text-muted);
-      margin: 0;
-      flex: 1;
-    }
-    .qv-dash-card__cta {
-      color: var(--color-primary);
-      font-size: var(--fs-sm);
-      font-weight: var(--fw-semibold);
-    }
-  </style>
+  <div style="margin-bottom: var(--space-5)">
+    <SupportTicketCard
+      href="https://quartavia-product-team.atlassian.net/jira/software/projects/PD/form/269"
+    />
+  </div>
+
+  <div class="portal-section">
+
+    <!-- Barra: contagem + busca -->
+    <div class="portal-section__bar">
+      <p class="portal-section__label" id="dash-count">
+        {visibleDashboards.length} painel{visibleDashboards.length !== 1 ? "s" : ""} disponíve{visibleDashboards.length !== 1 ? "is" : "l"}
+      </p>
+
+      <div class="portal-search" role="search">
+        <svg class="portal-search__icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+          <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M10.5 10.5l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input
+          id="dash-search"
+          type="search"
+          class="portal-search__input"
+          placeholder="Buscar dashboard…"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Buscar dashboard"
+        />
+        <button
+          id="dash-clear"
+          class="portal-search__clear"
+          type="button"
+          aria-label="Limpar busca"
+          hidden
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Grid de dashboards -->
+    <div class="qv-grid" id="dash-grid">
+      {
+        visibleDashboards.map((d) => (
+          <a
+            class="qv-col-4 qv-card qv-dash-card"
+            href={`/dashboards/${d.slug}`}
+            data-dash-card
+            data-search={buildSearch(d)}
+          >
+            <span class="qv-dash-card__tag">{d.tag}</span>
+            <h2 class="qv-dash-card__title">{d.titulo}</h2>
+            <p class="qv-dash-card__desc">{d.descricao}</p>
+            <span class="qv-dash-card__cta">
+              Abrir painel
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Empty state: só visível quando nenhum card bate com a busca -->
+    <div id="dash-empty" class="portal-empty" hidden>
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5" opacity=".4"/>
+        <path d="M22 22l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+        <path d="M10 14h8M14 10v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".25"/>
+      </svg>
+      <p class="portal-empty__title">Nenhum dashboard encontrado</p>
+      <p class="portal-empty__sub">
+        Tente outros termos ou
+        <button id="dash-clear-inline" class="portal-empty__link">limpe a busca</button>
+      </p>
+    </div>
+
+  </div>
+
 </BaseLayout>
+
+<script>
+  // Normaliza string: sem acentos, minúsculo
+  function norm(s: string): string {
+    return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  }
+
+  const input      = document.getElementById("dash-search")      as HTMLInputElement;
+  const clearBtn   = document.getElementById("dash-clear")        as HTMLButtonElement;
+  const clearInline = document.getElementById("dash-clear-inline") as HTMLButtonElement;
+  const cards      = document.querySelectorAll<HTMLElement>("[data-dash-card]");
+  const emptyState = document.getElementById("dash-empty")        as HTMLDivElement;
+  const countEl    = document.getElementById("dash-count")        as HTMLParagraphElement;
+  const total      = cards.length;
+
+  function filter(q: string) {
+    const nq = norm(q.trim());
+    let visible = 0;
+
+    cards.forEach((card) => {
+      const searchData = card.dataset.search ?? "";
+      const match = !nq || norm(searchData).includes(nq);
+
+      // Usa style.display em vez de .hidden para evitar ser sobrescrito pelo
+      // display:flex do .qv-dash-card definido no CSS global.
+      card.style.display = match ? "" : "none";
+
+      if (match) visible++;
+    });
+
+    // Empty state: apenas quando nenhum card bate
+    emptyState.hidden = visible > 0;
+
+    // Botão de limpar: apenas quando há texto
+    clearBtn.hidden = q.length === 0;
+
+    // Contador de resultados
+    const trimmed = q.trim();
+    if (!trimmed) {
+      countEl.textContent = `${total} painel${total !== 1 ? "s" : ""} disponíve${total !== 1 ? "is" : "l"}`;
+    } else {
+      countEl.textContent = `${visible} de ${total} resultado${visible !== 1 ? "s" : ""}`;
+    }
+  }
+
+  function clearSearch() {
+    input.value = "";
+    filter("");
+    input.focus();
+  }
+
+  input.addEventListener("input", (e) => filter((e.target as HTMLInputElement).value));
+  clearBtn.addEventListener("click", clearSearch);
+  clearInline.addEventListener("click", clearSearch);
+</script>
+
+<style>
+  /* ── Hero ────────────────────────────────────────────────── */
+  .portal-hero {
+    background: var(--gradient-hero);
+    padding: var(--space-7) 0 var(--space-6);
+    margin-bottom: var(--space-5);
+    position: relative;
+  }
+
+  .portal-hero__eyebrow {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 var(--space-2);
+  }
+
+  .portal-hero__title {
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-bold);
+    margin: 0 0 var(--space-3);
+    letter-spacing: -0.02em;
+    line-height: var(--lh-tight);
+    color: var(--color-text);
+  }
+
+  .portal-hero__desc {
+    color: var(--color-text-muted);
+    margin: 0;
+    font-size: var(--fs-base);
+    max-width: 480px;
+    line-height: var(--lh-relaxed);
+  }
+
+  /* ── Section bar ─────────────────────────────────────────── */
+  .portal-section__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .portal-section__label {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    color: var(--color-text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+
+  /* ── Search ─────────────────────────────────────────────── */
+  .portal-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .portal-search__icon {
+    position: absolute;
+    left: 11px;
+    color: var(--color-text-subtle);
+    pointer-events: none;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .portal-search__input {
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 0 36px 0 34px;
+    height: 36px;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    width: 220px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, width 0.2s ease;
+    -webkit-appearance: none;
+  }
+  .portal-search__input::-webkit-search-cancel-button { display: none; }
+  .portal-search__input::placeholder { color: var(--color-text-subtle); }
+  .portal-search__input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-tint);
+    width: 260px;
+  }
+
+  .portal-search__clear {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-subtle);
+    padding: 3px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    transition: color 0.1s ease;
+    line-height: 0;
+  }
+  .portal-search__clear:hover { color: var(--color-text); }
+
+  /* ── Empty state ─────────────────────────────────────────── */
+  .portal-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-7) var(--space-5);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-text-subtle);
+    text-align: center;
+  }
+
+  .portal-empty__title {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .portal-empty__sub {
+    font-size: var(--fs-sm);
+    color: var(--color-text-subtle);
+    margin: 0;
+  }
+
+  .portal-empty__link {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-primary);
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .portal-empty__link:hover { color: var(--color-primary-hover); }
+
+  /* ── Mobile ─────────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .portal-section__bar { flex-direction: column; align-items: flex-start; }
+    .portal-search { width: 100%; }
+    .portal-search__input { width: 100%; }
+    .portal-search__input:focus { width: 100%; }
+  }
+</style>

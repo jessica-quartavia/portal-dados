@@ -85,19 +85,42 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
 
-  /* Sombras */
+  /* Sombras base */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+
+  /* Sombras estendidas (profundidade premium) */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 8px rgba(0, 0, 0, 0.25);
+  --shadow-card-hover: 0 4px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-btn-primary: 0 2px 10px rgba(244, 121, 32, 0.3);
+  --shadow-btn-primary-hover: 0 4px 20px rgba(244, 121, 32, 0.45);
+  --shadow-header: 0 1px 0 rgba(255, 255, 255, 0.04), 0 4px 32px rgba(0, 0, 0, 0.5);
+
+  /* Gradientes */
+  --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.025) 0%, transparent 60%);
+  --gradient-primary: linear-gradient(135deg, #f58833 0%, #e06818 100%);
+  --gradient-hero: radial-gradient(ellipse 90% 50% at 50% -10%, rgba(244, 121, 32, 0.07) 0%, transparent 65%);
+
+  /* Header */
+  --header-bg: rgba(20, 20, 20, 0.82);
+  --header-blur: blur(20px);
 }
 
 /* --------------------------------------------------------------------------
-   Base — aplica o tema dark globalmente
+   Base
    -------------------------------------------------------------------------- */
 * {
   box-sizing: border-box;
+}
+
+/* Garante que [hidden] sempre oculta o elemento,
+   independente de qualquer display explícito no CSS. */
+[hidden] {
+  display: none !important;
 }
 
 html,
@@ -120,70 +143,152 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Foco visível e acessível em qualquer elemento interativo */
 :focus-visible {
   outline: 2px solid var(--color-border-focus);
   outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Scrollbar customizada */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-text-subtle); }
+
+/* --------------------------------------------------------------------------
+   Card / painel
+   -------------------------------------------------------------------------- */
+.qv-card {
+  background-color: var(--color-surface);
+  background-image: var(--gradient-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Cards interativos (links, hover) */
+a.qv-card,
+.qv-card--interactive {
+  cursor: pointer;
+}
+a.qv-card:hover,
+.qv-card--interactive:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-card-hover);
+  text-decoration: none;
 }
 
 /* --------------------------------------------------------------------------
-   Componentes utilitários (classes prontas — opcional, reaproveitáveis)
+   KPI card
    -------------------------------------------------------------------------- */
-
-/* Card / painel */
-.qv-card {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-}
-
-/* KPI card */
 .qv-kpi {
   background-color: var(--color-surface);
+  background-image: var(--gradient-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  position: relative;
 }
+
+/* Linha de acento no topo para KPIs em destaque */
+.qv-kpi--highlight::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
 .qv-kpi__label {
-  font-size: var(--fs-sm);
-  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-subtle);
   margin: 0 0 var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .qv-kpi__value {
   font-size: var(--fs-kpi);
   font-weight: var(--fw-bold);
   line-height: var(--lh-tight);
-  margin: 0;
+  margin: 0 0 var(--space-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qv-kpi__trend {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
 }
 .qv-kpi__trend--up {
   color: var(--color-success);
+  background: var(--color-success-soft);
 }
 .qv-kpi__trend--down {
   color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+.qv-kpi__trend--none {
+  color: var(--color-text-subtle);
+  background: transparent;
+  padding: 0;
 }
 
-/* Botões */
+/* --------------------------------------------------------------------------
+   Botões
+   -------------------------------------------------------------------------- */
 .qv-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
   font-family: var(--font-sans);
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
-  padding: var(--space-2) var(--space-4);
+  padding: 0 var(--space-4);
+  height: 40px;
   border-radius: var(--radius-md);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
 }
+
 .qv-btn--primary {
-  background-color: var(--color-primary);
+  background: var(--gradient-primary);
   color: var(--color-text-on-primary);
+  border-color: transparent;
+  box-shadow: var(--shadow-btn-primary);
 }
 .qv-btn--primary:hover {
-  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-btn-primary-hover);
+  transform: translateY(-1px);
 }
+.qv-btn--primary:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-btn-primary);
+}
+
 .qv-btn--secondary {
   background-color: transparent;
   color: var(--color-text);
@@ -191,24 +296,40 @@ a:hover {
 }
 .qv-btn--secondary:hover {
   border-color: var(--color-primary);
+  color: var(--color-primary);
+  background-color: var(--color-primary-tint);
 }
+
 .qv-btn--ghost {
   background-color: transparent;
   color: var(--color-text-muted);
+  border-color: transparent;
 }
 .qv-btn--ghost:hover {
   color: var(--color-text);
   background-color: var(--color-surface-2);
 }
 
-/* Badge / tag */
+.qv-btn:disabled,
+.qv-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Badge / tag
+   -------------------------------------------------------------------------- */
 .qv-badge {
   display: inline-flex;
   align-items: center;
   font-size: var(--fs-xs);
-  font-weight: var(--fw-medium);
-  padding: 2px var(--space-2);
+  font-weight: var(--fw-semibold);
+  padding: 3px var(--space-2);
   border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 .qv-badge--success {
   background: var(--color-success-soft);
@@ -222,29 +343,87 @@ a:hover {
   background: var(--color-danger-soft);
   color: var(--color-danger);
 }
+.qv-badge--primary {
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+.qv-badge--info {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+.qv-badge--neutral {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-muted);
+}
 
-/* Tabela de dados */
+/* --------------------------------------------------------------------------
+   Tabela de dados
+   -------------------------------------------------------------------------- */
 .qv-table {
   width: 100%;
   border-collapse: collapse;
   font-size: var(--fs-sm);
 }
+
+.qv-table thead tr {
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
 .qv-table th {
   text-align: left;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--color-border);
 }
+
 .qv-table td {
   padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+.qv-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.qv-table tbody tr {
+  transition: background-color 0.1s ease;
 }
 .qv-table tbody tr:hover {
   background-color: var(--color-surface-2);
 }
 
-/* Grid de dashboard */
+/* --------------------------------------------------------------------------
+   Inputs / filtros
+   -------------------------------------------------------------------------- */
+.qv-input {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-4);
+  height: 40px;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+.qv-input::placeholder {
+  color: var(--color-text-subtle);
+}
+.qv-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-tint);
+}
+
+/* --------------------------------------------------------------------------
+   Grid de dashboard
+   -------------------------------------------------------------------------- */
 .qv-grid {
   display: grid;
   gap: var(--space-5);
@@ -260,4 +439,130 @@ a:hover {
 }
 @media (max-width: 640px) {
   .qv-col-3, .qv-col-4, .qv-col-6 { grid-column: span 12; }
+  .qv-grid { gap: var(--space-4); }
+}
+
+/* --------------------------------------------------------------------------
+   Utilidades extras
+   -------------------------------------------------------------------------- */
+
+/* Título de seção dentro de cards */
+.qv-section-title {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+  margin: 0 0 var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  letter-spacing: -0.01em;
+}
+
+/* Espaçamento vertical padrão entre blocos */
+.qv-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Shell padrão de dashboard */
+.qv-dash-shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Card de dashboard (portal) */
+.qv-dash-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.qv-dash-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary), var(--shadow-card-hover),
+    0 0 32px rgba(244, 121, 32, 0.08);
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+
+.qv-dash-card__tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  letter-spacing: 0.03em;
+  align-self: flex-start;
+}
+
+.qv-dash-card__title {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  margin: var(--space-2) 0 0;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.qv-dash-card__desc {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+  flex: 1;
+  line-height: var(--lh-relaxed);
+}
+
+.qv-dash-card__cta {
+  color: var(--color-primary);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  transition: gap 0.15s ease;
+}
+.qv-dash-card:hover .qv-dash-card__cta {
+  gap: var(--space-2);
+}
+
+/* Dot de status (realtime) */
+.qv-status-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+.qv-status-dot__indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.qv-status-dot--connected .qv-status-dot__indicator {
+  background: var(--color-success);
+  box-shadow: 0 0 6px rgba(63, 185, 80, 0.5);
+}
+.qv-status-dot--connecting .qv-status-dot__indicator {
+  background: var(--color-warning);
+}
+.qv-status-dot--error .qv-status-dot__indicator {
+  background: var(--color-danger);
+}
+
+/* Loading skeleton */
+@keyframes qv-skeleton {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.65; }
+}
+.qv-skeleton {
+  background: var(--color-surface-2);
+  border-radius: var(--radius-md);
+  animation: qv-skeleton 1.6s ease-in-out infinite;
 }

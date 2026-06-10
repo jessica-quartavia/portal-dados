@@ -1,0 +1,60 @@
+---
+/**
+ * Callback OAuth Google via Supabase Auth (Business Data: rckpuebaiswrxzmywllv).
+ *
+ * Fluxo PKCE:
+ * 1. LoginWithGoogle chama signInWithOAuth com createBrowserClient → PKCE verifier em cookie
+ * 2. Google redireciona para Supabase, que redireciona para esta rota com ?code=
+ * 3. createAuthServerClient lê o cookie do verifier e troca o code por sessão
+ * 4. Sessão é escrita em cookies via setAll
+ * 5. Redireciona para / (autenticado) ou /login?error=... (falha/domínio não autorizado)
+ */
+import { createAuthServerClient } from '../../lib/supabase-server';
+import { isAllowedEmail } from '../../lib/auth';
+
+const isDev = import.meta.env.DEV;
+
+const code       = Astro.url.searchParams.get('code');
+const oauthError = Astro.url.searchParams.get('error');
+
+if (isDev) console.log('[callback] code present:', !!code, '| oauthError:', oauthError);
+
+if (oauthError) {
+  if (isDev) console.error('[callback] OAuth error from provider:', oauthError);
+  return Astro.redirect('/login?error=auth_failed');
+}
+
+if (!code) {
+  if (isDev) console.error('[callback] No code in URL');
+  return Astro.redirect('/login?error=missing_code');
+}
+
+const supabase = createAuthServerClient(Astro.request, Astro.cookies);
+
+const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+
+if (isDev) console.log('[callback] exchange error:', exchangeError?.message ?? 'none');
+
+if (exchangeError) {
+  if (isDev) console.error('[callback] exchangeCodeForSession failed:', exchangeError);
+  return Astro.redirect('/login?error=exchange_failed');
+}
+
+if (!data.session) {
+  if (isDev) console.error('[callback] session missing after exchange');
+  return Astro.redirect('/login?error=session_missing');
+}
+
+const email = data.session.user?.email ?? '';
+const allowed = isAllowedEmail(email);
+
+if (isDev) console.log('[callback] user.email:', email, '| allowed:', allowed);
+
+if (!allowed) {
+  await supabase.auth.signOut();
+  return Astro.redirect('/login?error=unauthorized_domain');
+}
+
+if (isDev) console.log('[callback] OK → redirecting to /');
+return Astro.redirect('/');
+---

@@ -43,10 +43,52 @@ gh repo create grupo-quartavia/quartavia-dashboards --private --source=. --push
 4. **Save and Deploy.** A cada `git push` na branch `main`, o Cloudflare rebuilda e publica.
 
 ### 3. Proteger o acesso (Cloudflare Access)
+
+> **Este portal não implementa autenticação própria.**
+> Todo o controle de acesso é delegado ao Cloudflare Access, que intercepta
+> as requisições antes de chegarem ao app.
+
+#### Configuração obrigatória
+
 1. Cloudflare Dashboard → **Zero Trust** → **Access** → **Applications** → **Add an application** → **Self-hosted**.
-2. Aponte para o domínio do Pages (`quartavia-dashboards.pages.dev` ou o domínio próprio).
-3. Crie uma **policy**: permitir e-mails do domínio da empresa (ex.: `@quartavia.com`) ou uma lista de e-mails.
-4. Provedor de login: e-mail OTP (padrão) ou Google/Microsoft (SSO) — todos grátis dentro do limite.
+2. Configure o domínio: `quartavia-dashboards.pages.dev` (ou o domínio próprio).
+3. Crie uma **policy** com a seguinte regra:
+
+   | Campo | Valor |
+   |---|---|
+   | Rule name | `Acesso corporativo` |
+   | Action | Allow |
+   | Include — Selector | Emails ending in |
+   | Include — Value | `@quartavia.com.br` |
+
+4. Provedor de identidade: **Google** (recomendado para autenticação corporativa G Suite/Workspace) ou e-mail OTP.
+   - Para Google: Zero Trust → Settings → Authentication → Add Identity Provider → Google Workspace.
+   - Informe o domínio `quartavia.com.br` para restringir ao Workspace da empresa.
+
+5. Após salvar, qualquer acesso ao portal exigirá login com conta `@quartavia.com.br`.
+   - Usuários externos recebem uma tela de bloqueio do Cloudflare (não chegam ao app).
+   - O app Astro não precisa saber nada sobre autenticação.
+
+#### Resumo da arquitetura
+
+```
+Usuário → Cloudflare Access (verifica @quartavia.com.br) → Portal Astro → Supabase (dados)
+                   │
+          bloqueado se não autorizado
+                   │
+             (nunca chega ao app)
+```
+
+#### Variáveis de ambiente no Cloudflare Pages
+
+Configurar em **Pages → Settings → Environment variables**:
+
+| Variável | Valor |
+|---|---|
+| `PUBLIC_SUPABASE_URL` | URL do projeto Supabase |
+| `PUBLIC_SUPABASE_ANON_KEY` | Anon key pública do Supabase |
+
+Nunca commitar credenciais no repositório.
 
 ### 4. (Opcional) Domínio próprio
 - Em **Pages → Custom domains**, adicione `dashboards.quartavia.com` e siga o DNS (grátis se o domínio já estiver na Cloudflare).
