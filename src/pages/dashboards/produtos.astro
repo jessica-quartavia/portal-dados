@@ -1,0 +1,11 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProductOpsDashboard from "../../components/produtos/ProductOpsDashboard";
+---
+
+<BaseLayout
+  title="Produto, operação e clientes"
+  subtitle="Clientes, cancelamentos, operação e ascensões"
+>
+  <ProductOpsDashboard client:load />
+</BaseLayout>
