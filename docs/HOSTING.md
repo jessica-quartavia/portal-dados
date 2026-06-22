@@ -83,12 +83,18 @@ Usuário → Cloudflare Access (verifica @quartavia.com.br) → Portal Astro →
 
 Configurar em **Pages → Settings → Environment variables**:
 
-| Variável | Valor |
+| Variável | Uso |
 |---|---|
-| `PUBLIC_SUPABASE_URL` | URL do projeto Supabase |
-| `PUBLIC_SUPABASE_ANON_KEY` | Anon key pública do Supabase |
+| `PUBLIC_AUTH_SUPABASE_URL` | URL do projeto Business Data (login + Comercial / Pulso) |
+| `PUBLIC_AUTH_SUPABASE_ANON_KEY` | Anon key pública do Business Data |
+| `PUBLIC_PHARUS_SUPABASE_URL` | URL do projeto Pharus |
+| `PUBLIC_PHARUS_SUPABASE_ANON_KEY` | Anon key pública do Pharus |
+| `PUBLIC_PRODUTOS_SUPABASE_URL` | URL do projeto Produtos |
+| `PUBLIC_PRODUTOS_SUPABASE_ANON_KEY` | Anon key pública do Produtos |
 
-Nunca commitar credenciais no repositório.
+Use o prefixo `PUBLIC_` (padrão Astro para variáveis expostas ao browser). Não use `VITE_*` nem `service_role`.
+
+Nunca commitar credenciais no repositório — copie de `.env.example` e preencha localmente em `.env.local`.
 
 ### 4. (Opcional) Domínio próprio
 - Em **Pages → Custom domains**, adicione `dashboards.quartavia.com` e siga o DNS (grátis se o domínio já estiver na Cloudflare).
