@@ -16,7 +16,6 @@ import {
   rechartsTheme,
 } from '../../../packages/design-system/charts-theme';
 import { emptyProdutosMetrics } from '../../lib/produtos/mockData';
-import { fetchProdutosMetrics } from '../../lib/produtos';
 import type { ProdutosCard, ProdutosMetricResponse, ProdutosTabKey } from '../../types/produtos';
 
 const REFRESH_MS = 120_000;
@@ -131,7 +130,18 @@ export default function ProductOpsDashboard() {
     setError(null);
 
     try {
-      const result = await fetchProdutosMetrics(filters);
+      const params = new URLSearchParams({
+        start: filters.start,
+        end: filters.end,
+        program: filters.program,
+        cohort: filters.cohort,
+      });
+      const response = await fetch(`/api/produtos?${params.toString()}`, { cache: 'no-store' });
+      const result = await response.json();
+      if (!response.ok) {
+        const details = result.details ? ` Detalhe: ${result.details}` : '';
+        throw new Error(`${result.error ?? 'Falha ao carregar métricas.'}${details}`);
+      }
       if (signal?.aborted) return;
       setData(result.data);
       setPendingConnection(result.pendingConnection);

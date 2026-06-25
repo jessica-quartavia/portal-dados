@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CustomerJourneyDashboard from "../../components/CustomerJourneyDashboard";
+---
+
+<BaseLayout
+  title="Dashboard Jornada do Cliente"
+  subtitle="Jornada, reunioes e completude financeira"
+  showPortal={false}
+  showLogout={false}
+>
+  <CustomerJourneyDashboard client:load />
+</BaseLayout>

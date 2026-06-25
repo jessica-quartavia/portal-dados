@@ -1,11 +1,13 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PharusJourneyDashboard from "../../components/pharus/PharusJourneyDashboard";
+import CustomerJourneyDashboard from "../../components/CustomerJourneyDashboard";
 ---
 
 <BaseLayout
-  title="Pharus Journey Analytics"
-  subtitle="Observabilidade da jornada dos clientes no App Pharus"
+  title="Dashboard Jornada do Cliente"
+  subtitle="Jornada, reunioes e completude financeira"
+  showPortal={false}
+  showLogout={false}
 >
-  <PharusJourneyDashboard client:load />
+  <CustomerJourneyDashboard client:load />
 </BaseLayout>

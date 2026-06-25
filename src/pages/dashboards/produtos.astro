@@ -1,5 +1,5 @@
----
-import BaseLayout from "../../layouts/BaseLayout.astro";
+﻿---
+import BaseLayout from "../../layouts/DashboardOnlyLayout.astro";
 import ProductOpsDashboard from "../../components/produtos/ProductOpsDashboard";
 ---
 
@@ -7,5 +7,5 @@ import ProductOpsDashboard from "../../components/produtos/ProductOpsDashboard";
   title="Produto, operação e clientes"
   subtitle="Clientes, cancelamentos, operação e ascensões"
 >
-  <ProductOpsDashboard client:load />
+  <ProductOpsDashboard client:only="react" />
 </BaseLayout>

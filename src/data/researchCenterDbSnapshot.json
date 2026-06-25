@@ -1,0 +1,449 @@
+{
+  "generatedAt": "2026-06-22T20:13:09.874888+00:00",
+  "source": "Backup Base QV",
+  "overviewKpis": [
+    {
+      "label": "NPS Score",
+      "value": "58",
+      "detail": "110 respostas no banco",
+      "trend": null,
+      "tone": "neutral"
+    },
+    {
+      "label": "CSAT Medio",
+      "value": "Sem base",
+      "detail": "0 avaliacoes no banco",
+      "trend": null,
+      "tone": "neutral"
+    },
+    {
+      "label": "Volume de Feedback",
+      "value": "110",
+      "detail": "comentarios e respostas NPS",
+      "trend": null,
+      "tone": "neutral"
+    },
+    {
+      "label": "Taxa de Churn",
+      "value": "2.7%",
+      "detail": "80 cancelamentos em 30 dias",
+      "trend": null,
+      "tone": "neutral"
+    }
+  ],
+  "activeClients": 3010,
+  "totalClients": 3246,
+  "nps": {
+    "score": 58,
+    "totalResponses": 110,
+    "distribution": [
+      {
+        "name": "Promotores",
+        "value": 79
+      },
+      {
+        "name": "Neutros",
+        "value": 16
+      },
+      {
+        "name": "Detratores",
+        "value": 15
+      }
+    ],
+    "byEngineer": [
+      {
+        "name": "Sem engenheiro",
+        "responses": 59,
+        "clients": 0,
+        "promoters": 48,
+        "neutrals": 7,
+        "detractors": 4,
+        "nps": 75
+      },
+      {
+        "name": "Gustavo Papeschi Mariano",
+        "responses": 7,
+        "clients": 7,
+        "promoters": 6,
+        "neutrals": 1,
+        "detractors": 0,
+        "nps": 86
+      },
+      {
+        "name": "Cleuber Anicesio",
+        "responses": 6,
+        "clients": 6,
+        "promoters": 3,
+        "neutrals": 2,
+        "detractors": 1,
+        "nps": 33
+      },
+      {
+        "name": "Gabriel Oliveira",
+        "responses": 6,
+        "clients": 6,
+        "promoters": 5,
+        "neutrals": 0,
+        "detractors": 1,
+        "nps": 67
+      },
+      {
+        "name": "Nícolas Alves",
+        "responses": 5,
+        "clients": 5,
+        "promoters": 3,
+        "neutrals": 0,
+        "detractors": 2,
+        "nps": 20
+      },
+      {
+        "name": "Rodrigo Amorim",
+        "responses": 4,
+        "clients": 4,
+        "promoters": 3,
+        "neutrals": 1,
+        "detractors": 0,
+        "nps": 75
+      },
+      {
+        "name": "Ariel Phelipe Zocoli",
+        "responses": 3,
+        "clients": 3,
+        "promoters": 2,
+        "neutrals": 1,
+        "detractors": 0,
+        "nps": 67
+      },
+      {
+        "name": "Pedro Goulart",
+        "responses": 3,
+        "clients": 3,
+        "promoters": 2,
+        "neutrals": 0,
+        "detractors": 1,
+        "nps": 33
+      },
+      {
+        "name": "Tales Salinas Rozo",
+        "responses": 3,
+        "clients": 3,
+        "promoters": 1,
+        "neutrals": 0,
+        "detractors": 2,
+        "nps": -33
+      },
+      {
+        "name": "Thiago Henrique Trova",
+        "responses": 3,
+        "clients": 3,
+        "promoters": 2,
+        "neutrals": 1,
+        "detractors": 0,
+        "nps": 67
+      },
+      {
+        "name": "Hendrick Dorner",
+        "responses": 2,
+        "clients": 2,
+        "promoters": 0,
+        "neutrals": 1,
+        "detractors": 1,
+        "nps": -50
+      },
+      {
+        "name": "Rodrigo Lunardi",
+        "responses": 2,
+        "clients": 2,
+        "promoters": 1,
+        "neutrals": 1,
+        "detractors": 0,
+        "nps": 50
+      }
+    ],
+    "evolution": [
+      {
+        "name": "Jun",
+        "value": 58
+      }
+    ]
+  },
+  "csat": {
+    "average": null,
+    "totalResponses": 0
+  },
+  "churn": {
+    "cancellations30d": 80,
+    "cancellationsTotal": 335,
+    "rate": 2.7,
+    "retention": 97.3,
+    "byEngineer": [
+      {
+        "name": "André Rockenbach",
+        "value": 15.8,
+        "clients": 19,
+        "cancellations": 3
+      },
+      {
+        "name": "Cleuber Anicesio",
+        "value": 6.4,
+        "clients": 188,
+        "cancellations": 12
+      },
+      {
+        "name": "Sem engenheiro",
+        "value": 6.0,
+        "clients": 183,
+        "cancellations": 11
+      },
+      {
+        "name": "Nícolas Alves",
+        "value": 1.8,
+        "clients": 109,
+        "cancellations": 2
+      },
+      {
+        "name": "Willian Sobral",
+        "value": 0.8,
+        "clients": 129,
+        "cancellations": 1
+      },
+      {
+        "name": "Samuel Araújo",
+        "value": 0.7,
+        "clients": 150,
+        "cancellations": 1
+      },
+      {
+        "name": "Hendrick Dorner",
+        "value": 0.5,
+        "clients": 194,
+        "cancellations": 1
+      },
+      {
+        "name": "Gabriel Oliveira",
+        "value": 0.0,
+        "clients": 242,
+        "cancellations": 0
+      },
+      {
+        "name": "Tales Salinas Rozo",
+        "value": 0.0,
+        "clients": 230,
+        "cancellations": 0
+      },
+      {
+        "name": "Junior Teixeira",
+        "value": 0.0,
+        "clients": 193,
+        "cancellations": 0
+      },
+      {
+        "name": "Abner Braga",
+        "value": 0.0,
+        "clients": 148,
+        "cancellations": 0
+      },
+      {
+        "name": "João Aliceda",
+        "value": 0.0,
+        "clients": 129,
+        "cancellations": 0
+      }
+    ],
+    "reasons": [
+      {
+        "name": "Sem motivo informado",
+        "value": 74.0
+      },
+      {
+        "name": "Problema financeiro pessoal",
+        "value": 6.0
+      },
+      {
+        "name": "motivo escrito cliente no formulário: \n\nQuando ingressei no programa esperava encontrar produtos financeiros diferentes daqueles negociados nas plataformas das corretoras. A apresentação do programa realizada pelo Sr. Adrian CEO da empresa, falava muito em economia real, no entanto , fiquei restrito a consórcio (sem seguro), e leilão de imóveis que nunca consegui ingressar em nenhum grupo e por último a um fundo imobiliário não negociado na bolsa.",
+        "value": 2.0
+      },
+      {
+        "name": "resumo cliente: \nO plano foi apresentado quase 60 dias após minha entrada no Pharus. Entendo que era um tempo necessário dentro da estrutura de vcs, mas em vista da minha urgência, foi um período longo, pois muita coisa aconteceu neste tempo e minha situação financeira se modificou e se agravou rapidamente. pelas lives e conversas prévias pelo whatsapp, entendi que haveria diversos mecanismos e tipos de investimentos que me ajudariam a sair desta situação mesmo sem ter receita mensal no momento. Só que agora analisando melhor a realidade trazida por vocês, vejo que não é bem assim. Muitas das opções e tipos de investimentos possíveis não se encaixam na minha situação. Os resultados na minha empresa estão demorando e não criaram ainda a receita mensal que eu preciso, então, somando tudo isso, vejo que o programa não irá me atender no momento como imaginei inicialmente. Minha situação não é de alguém que tem 300K para investir, aí sim esse planejamento faria sentido. mas sim de alguém que tem 260K e precisa pagar dívidas e sobreviver também. Tenho que “regular o motor com o kart andando” e tentar chegar no final da corrida, sem ter que abrir mão do meu imóvel. Além disso, considerando todo esse cenário, na prática, pagar 20K para o programa Pharus, não faz sentido, pois aplicando apenas 100/150k, essa conta anual não fecha. Creio que a avaliação da minha situação ficou um pouco demorada e sem a profundidade suficiente, não considerando todos os detalhes apontados.  Entendo que na verdade não me encaixo no programa Pharus no momento. Foi um equívoco de avaliação da minha parte e creio que também da parte da Quarta via.",
+        "value": 2.0
+      },
+      {
+        "name": "Cliente: Samuel Zancan Balan\n\nEngenheiro:  Nicolas\n\nFormulário: preenchido\n\nSituação: cliente está passando por um momento financeiro complicado e está cortando todos os gastos, não conseguindo arcar com as parcelas.\n\nFalei com ele que do contrato,  e o valor de reembolso é muito baixo e que existem fatores que não conseguimos controlar.\n\nEle sugeriu um meio-termo: faltam 6 parcelas e gostaria de suspender agora para retomar no futuro. Reforcei que, por regra, não conseguimos fazer esse tipo de pausa tendo em vista que não é um pagamento recorrente\n\nO cliente sinalizou que, caso não consigamos apresentar alguma proposta, está disposto a levar o caso para justiça.\n\n@nicole falei que iria passar para o juridico ver se é possivel algo\n\nContato: \n\n +55 16 99967-9233",
+        "value": 2.0
+      },
+      {
+        "name": "Insatisfação com a organização do programa",
+        "value": 2.0
+      },
+      {
+        "name": "Cliente: Samy Zenun\n\nEngenheiro: Gustavo\n\nFormulário: Preenchido\n\nResumo: Tentei ligar 3 vezes, mas não me atendeu. Ele está buscando centralizar a comunicação no privado.\nApresentei algumas alternativas, como congelamento, entre outras tratativas, porém ele deseja seguir com o distrato. Teoricamente, já está na fase 3 e já recebeu o plano.\n\n@Nicole Seemann | Secretária Executiva, informei que iria encaminhar o caso para o jurídico, para revisar os entregáveis e avaliar essa questão do distrato.\n\nContato: +55 35 9751-1974",
+        "value": 2.0
+      },
+      {
+        "name": "Cliente: Bruno Oliveira de Almeida\n\nEngenheiro: Thales\n\nFormulário:  Preenchido\n\nResumo: cliente relatou que está passando por um momento difícil e disse que não consegue implementar os mecanismos do programa no momento. Foi proposta a possibilidade de congelamento do programa  porém o cliente informou que não deseja seguir agora está muito resistente. \n\nO principal ponto levantado por ele é que gostaria de interromper os pagamentos. Expliquei que o parcelamento é realizado diretamente com a bandeira/cartão, não havendo possibilidade interna de suspensão. O cliente informou que já consultou o jurídico/advogado dele e que, segundo orientação recebida, existiria possibilidade de realizar algum pedido via cartão, mesmo com as tratativas ele insiste ameaçou entrar na justiça. \n\n@Nicole Seemann | Secretária Executiva, alinhei com ele que o caso será levantado internamente e levado ao comitê para avaliação de possível proposta com base no distrato. \n\nContato: +55 31 7122-2222",
+        "value": 2.0
+      }
+    ],
+    "statuses": [
+      {
+        "name": "Não retido",
+        "value": 110.0
+      },
+      {
+        "name": "Churn Efetivado",
+        "value": 92.0
+      },
+      {
+        "name": "Retido",
+        "value": 62.0
+      },
+      {
+        "name": "Reembolso",
+        "value": 18.0
+      },
+      {
+        "name": "Aguardando resposta",
+        "value": 16.0
+      },
+      {
+        "name": "Novo Possível Cancelamento",
+        "value": 11.0
+      },
+      {
+        "name": "Em retenção",
+        "value": 7.0
+      },
+      {
+        "name": "Sem contato",
+        "value": 7.0
+      }
+    ]
+  },
+  "feedback": {
+    "total": 110,
+    "sentiment": [
+      {
+        "name": "Positivo",
+        "value": 79
+      },
+      {
+        "name": "Neutro",
+        "value": 16
+      },
+      {
+        "name": "Negativo",
+        "value": 15
+      }
+    ],
+    "rows": [
+      {
+        "date": "22/06/2026",
+        "engineer": "Pedro Goulart",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Positivo",
+        "text": "Conhecimento",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Cleuber Anicesio",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Positivo",
+        "text": "Atenção e transparência",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Sem engenheiro",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Positivo",
+        "text": "Sinto falta de encontros presenciais!",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Sem engenheiro",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Positivo",
+        "text": "Esclarecimentos, dedicação e compromisso",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Sem engenheiro",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Positivo",
+        "text": "Acompanhamento e segurança",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Hendrick Dorner",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Negativo",
+        "text": "Até o momento não vi nada que faça sentido ter pago o valor pelo programa",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Ariel Phelipe Zocoli",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Positivo",
+        "text": "É sobre o conjunto, estratégia, atendimento, planejamento e transparencia.",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Sem engenheiro",
+        "client": "Cliente anonimizado",
+        "theme": "NPSAgradecemos muito pela sua colaboração!",
+        "sentiment": "Positivo",
+        "text": "Satisfeita com o atendimento. Samuel tem me ajudado muito.",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Ariel Phelipe Zocoli",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Neutro",
+        "text": "Ainda não consegui ver resultados, somente por isso",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Thiago Henrique Trova",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Neutro",
+        "text": "Inovação na abordagem e excelente acompanhamento.",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Rodrigo Amorim",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Positivo",
+        "text": "O time sempre disposto a nos ajudar e nos direcionar para que possamos tomar as melhores decisões financeiras .",
+        "action": "Classificar e encaminhar para plano de acao."
+      },
+      {
+        "date": "22/06/2026",
+        "engineer": "Thiago Henrique Trova",
+        "client": "Cliente anonimizado",
+        "theme": "NPS",
+        "sentiment": "Positivo",
+        "text": "A atenção é poder tirar dúvidas",
+        "action": "Classificar e encaminhar para plano de acao."
+      }
+    ]
+  }
+}

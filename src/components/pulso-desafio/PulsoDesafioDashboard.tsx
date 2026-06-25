@@ -3,7 +3,6 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LabelList,
 } from 'recharts';
 import {
-  fetchAgendamentos,
   computeKpis,
   getAgendaPorStatus,
   getTiposNoShow,
@@ -281,8 +280,18 @@ function PulsoDesafioDashboardInner() {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchAgendamentos(f);
-      setRows(data ?? []);
+      const params = new URLSearchParams({
+        desafio: f.desafio,
+        dataInicio: f.dataInicio,
+        dataFim: f.dataFim,
+      });
+      const response = await fetch(`/api/pulso-desafio?${params.toString()}`, { cache: 'no-store' });
+      const payload = await response.json();
+      if (!response.ok) {
+        const details = payload.details ? ` Detalhe: ${payload.details}` : '';
+        throw new Error(`${payload.error ?? 'Falha ao carregar dados.'}${details}`);
+      }
+      setRows(payload.rows ?? []);
       setLastUpdated(new Date());
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);

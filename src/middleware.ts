@@ -1,8 +1,8 @@
-import { defineMiddleware } from 'astro:middleware';
+﻿import { defineMiddleware } from 'astro:middleware';
 import { createAuthServerClient } from './lib/supabase-server';
 import { isAllowedEmail } from './lib/auth';
 
-const PUBLIC_PATHS = new Set(['/login', '/auth/callback']);
+const PUBLIC_PATHS = new Set(['/login', '/auth/callback', '/dashboards/produtos', '/dashboards/iapmai26-agendamentos']);
 
 function isPublic(pathname: string): boolean {
   if (PUBLIC_PATHS.has(pathname)) return true;
@@ -32,3 +32,4 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   return next();
 });
+
