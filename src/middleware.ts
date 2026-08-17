@@ -16,6 +16,12 @@ function isPublic(pathname: string): boolean {
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
 
+  // O portal local é uma ferramenta de desenvolvimento. O bypass fica
+  // restrito ao modo DEV e aos hosts de loopback; produção continua exigindo
+  // autenticação e domínio @quartavia.com.br.
+  const isLoopback = context.url.hostname === '127.0.0.1' || context.url.hostname === 'localhost';
+  if (import.meta.env.DEV && isLoopback) return next();
+
   if (isPublic(pathname)) return next();
 
   const supabase = createAuthServerClient(context.request, context.cookies);

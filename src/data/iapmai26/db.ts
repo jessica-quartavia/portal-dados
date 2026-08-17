@@ -1,11 +1,31 @@
-﻿import type { Pool as PoolType, QueryResultRow } from "pg";
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import type { Pool as PoolType, QueryResultRow } from "pg";
 
 const globalForPg = globalThis as unknown as { pgPool?: PoolType };
 
 const blockedSqlPattern = /\b(insert|update|delete|drop|alter|truncate|create|merge|grant|revoke)\b/i;
 
+function getLocalEnvValue(name: string) {
+  if (process.env.NODE_ENV === "production") return undefined;
+
+  const envPath = resolve(process.cwd(), ".env");
+  if (!existsSync(envPath)) return undefined;
+
+  const line = readFileSync(envPath, "utf8")
+    .split(/\r?\n/)
+    .find((entry) => entry.trim().startsWith(`${name}=`));
+
+  if (!line) return undefined;
+
+  return line
+    .slice(line.indexOf("=") + 1)
+    .trim()
+    .replace(/^['"]|['"]$/g, "");
+}
+
 function getDatabaseUrl() {
-  const databaseUrl = process.env.DATABASE_URL || import.meta.env.DATABASE_URL;
+  const databaseUrl = process.env.DATABASE_URL || getLocalEnvValue("DATABASE_URL");
   if (!databaseUrl) {
     throw new Error("DATABASE_URL nao configurada para o dashboard IAP Maio 26.");
   }

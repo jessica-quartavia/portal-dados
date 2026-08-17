@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { getAuthSupabase } from '../lib/supabaseAuthClient';
 
+function getAuthRedirectTo() {
+  const siteUrl = import.meta.env.PUBLIC_SITE_URL as string | undefined;
+  const origin = siteUrl?.trim().replace(/\/$/, '') || window.location.origin;
+  return `${origin}/auth/callback`;
+}
+
 export default function LoginWithGoogle() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -11,7 +17,7 @@ export default function LoginWithGoogle() {
     try {
       const { error: oauthError } = await getAuthSupabase().auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: `${window.location.origin}/auth/callback` },
+        options: { redirectTo: getAuthRedirectTo() },
       });
       if (oauthError) {
         console.error('Google OAuth error:', oauthError);

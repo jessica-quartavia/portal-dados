@@ -361,7 +361,7 @@ export default function CustomerJourneyDashboard() {
       <section className="qv-journey-hero">
         <div>
           <span className="qv-journey-eyebrow">Pharus · Jornada do cliente</span>
-          <h1>Dashboard Jornada do Cliente</h1>
+          <h1>Jornada do Cliente</h1>
           <p>Acompanhamento operacional da jornada, reuniões, completude financeira e saúde de avanço.</p>
         </div>
         <div className="qv-journey-hero__actions">

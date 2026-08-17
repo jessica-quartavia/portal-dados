@@ -2,7 +2,17 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SupportTicketCard from "../components/SupportTicketCard.astro";
 
-const dashboards = [
+type DashboardEntry = {
+  slug: string;
+  titulo: string;
+  descricao: string;
+  tag: string;
+  href?: string;
+  localService?: boolean;
+  devOnly?: boolean;
+};
+
+const dashboards: DashboardEntry[] = [
   {
     slug: "exemplo-vendas",
     titulo: "Vendas — Exemplo",
@@ -12,33 +22,71 @@ const dashboards = [
   },
   {
     slug: "jornada-cliente-pharus",
-    titulo: "Dashboard Jornada do Cliente",
+    titulo: "Dashboard Jornada do Cliente Pharus",
     descricao: "Funil operacional, etapas atuais, completude financeira, reunioes e saude da jornada.",
     tag: "App Pharus",
   },
   {
     slug: "iapmai26-agendamentos",
-    titulo: "IAP Maio 26 - Agendamentos",
+    titulo: "Dashboard IAP Maio 26 - Agendamentos",
     descricao: "Agendamentos, no-show, renda e validacao dos dados da campanha IAP Maio 26.",
     tag: "Comercial",
   },
   {
-    slug: "pulso-desafio",
-    titulo: "Pulso Desafio — Agendamentos",
-    descricao: "Acompanhamento em tempo real de agendas, realizadas, futuras, no-shows e renda dos leads do desafio.",
-    tag: "Comercial",
-  },
-  {
     slug: "produtos",
-    titulo: "Produto, Operacao e Clientes",
+    titulo: "Dashboard Produto, Operacao e Clientes",
     descricao: "Clientes, cancelamentos, operacao, ascensoes e indicadores do time de Produtos.",
     tag: "Produtos",
   },
   {
     slug: "research-center-insights",
-    titulo: "CSAT, NPS e Cancelamentos",
+    titulo: "Dashboard CSAT, NPS e Cancelamentos",
     descricao: "Satisfacao, feedbacks, churn, renovacao e analise qualitativa do Research Center.",
     tag: "Research Center",
+  },
+  {
+    slug: "perfil-cliente-infoproduto",
+    titulo: "Dashboard Perfil de Cliente Atual vs. Infoproduto",
+    descricao: "Comparativo entre a base de clientes QV360 e os leads inscritos no infoproduto.",
+    tag: "Marketing",
+  },
+  {
+    slug: "pulso-desafio",
+    titulo: "Dashboard Pulso Desafio - Agendamentos",
+    descricao: "Agendamentos, comparecimento, no-shows e renda dos leads do desafio.",
+    tag: "Comercial",
+  },
+  {
+    slug: "comercial-qv",
+    href: "http://127.0.0.1:5190",
+    titulo: "Dashboard Comercial QV",
+    descricao: "Funil, receita, pagamentos e performance comercial consolidada.",
+    tag: "Comercial",
+    localService: true,
+  },
+  {
+    slug: "qualidade-dados",
+    href: "http://127.0.0.1:4173",
+    titulo: "Dashboard de Qualidade dos Dados",
+    descricao: "Completude dos campos de clientes, jornada, financeiro, reunioes, NPS e CSAT.",
+    tag: "Qualidade",
+    localService: true,
+  },
+  {
+    slug: "info-leads",
+    href: "http://127.0.0.1:5188",
+    titulo: "Dashboard Info Leads",
+    descricao: "Consulta operacional dos leads dos pipelines de vendas e desafio.",
+    tag: "Business Data",
+    localService: true,
+  },
+  {
+    slug: "info-cliente",
+    href: "http://127.0.0.1:5187",
+    titulo: "Dashboard Info Cliente",
+    descricao: "Acompanhamento da view de clientes, completude cadastral e dados operacionais.",
+    tag: "Base QV",
+    localService: true,
   },
 ];
 
@@ -58,7 +106,7 @@ function buildSearch(d: typeof dashboards[number]) {
 
   <div class="portal-hero">
     <div class="portal-hero__content">
-      <p class="portal-hero__eyebrow">Grupo Quarta Via</p>
+      <p class="portal-hero__eyebrow">Grupo QuartaVia</p>
       <h1 class="portal-hero__title">Portal de Dashboards</h1>
       <p class="portal-hero__desc">
         Dados em tempo real para apoiar decisões, otimizar processos e melhorar a experiência dos times.
@@ -114,11 +162,12 @@ function buildSearch(d: typeof dashboards[number]) {
         visibleDashboards.map((d) => (
           <a
             class="qv-col-4 qv-card qv-dash-card"
-            href={`/dashboards/${d.slug}`}
+            href={d.href ?? `/dashboards/${d.slug}`}
             data-dash-card
             data-search={buildSearch(d)}
           >
             <span class="qv-dash-card__tag">{d.tag}</span>
+            {d.localService && <span class="qv-dash-card__local">Serviço local</span>}
             <h2 class="qv-dash-card__title">{d.titulo}</h2>
             <p class="qv-dash-card__desc">{d.descricao}</p>
             <span class="qv-dash-card__cta">
@@ -257,6 +306,16 @@ function buildSearch(d: typeof dashboards[number]) {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin: 0;
+  }
+
+  .qv-dash-card__local {
+    align-self: flex-start;
+    color: var(--color-info);
+    background: var(--color-info-soft);
+    border-radius: var(--radius-full);
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
   }
 
   /* ── Search ─────────────────────────────────────────────── */

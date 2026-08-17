@@ -1,6 +1,6 @@
 # Quarta Via — Dashboards
 
-Monorepo com **todos os dashboards** do Grupo Quarta Via e o **design system** que os padroniza (tema dark, acento laranja `#F47920`, fonte Inter). Construído em **Astro + React (ilhas)** e hospedado no **Cloudflare Pages** com acesso privado — **custo R$0**.
+Portal com os dashboards do Grupo Quarta Via e o **design system** que os padroniza (tema dark, acento laranja `#F47920`, fonte Inter). Construído em **Astro + React (ilhas)** e preparado para hospedagem na **Netlify**.
 
 ## Documentação
 
@@ -20,7 +20,13 @@ npm install
 npm run dev      # http://localhost:4321
 ```
 
-`npm run build` gera a pasta `dist/` (saída estática usada pelo Cloudflare Pages).
+Para iniciar também os dashboards auxiliares locais (Qualidade dos Dados, Info Cliente, Info Leads e Comercial QV), execute no Windows:
+
+```powershell
+.\iniciar-local.ps1
+```
+
+`npm run build` gera a saída de produção usada pelo adaptador Netlify.
 
 ## Estrutura
 
@@ -45,4 +51,4 @@ templates/dashboard-starter/   Ponto de partida de um novo dashboard
 
 ## Publicar (resumo)
 
-Repo **privado** no GitHub → **Cloudflare Pages** (build `npm run build`, saída `dist`) → **Cloudflare Access** restringe o login aos e-mails da empresa. Detalhes em [`docs/HOSTING.md`](docs/HOSTING.md).
+GitHub → **Netlify** (build `npm run build`, saída `dist`). As credenciais e URLs dos bancos devem ser configuradas como variáveis de ambiente da hospedagem; arquivos `.env` locais não são versionados.
