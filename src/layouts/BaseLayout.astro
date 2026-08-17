@@ -8,7 +8,9 @@ interface Props {
   showPortal?: boolean;
   showLogout?: boolean;
 }
-const { title = "Grupo QuartaVia", subtitle, showPortal = true, showLogout = true } = Astro.props;
+const { title = "Analytics QuartaVia", showPortal = true, showLogout = true } = Astro.props;
+const documentTitle =
+  title === "Analytics QuartaVia" ? title : `${title} · Analytics QuartaVia`;
 ---
 
 <!doctype html>
@@ -17,7 +19,8 @@ const { title = "Grupo QuartaVia", subtitle, showPortal = true, showLogout = tru
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <title>{title} · Quarta Via</title>
+    <title>{documentTitle}</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,10 +32,10 @@ const { title = "Grupo QuartaVia", subtitle, showPortal = true, showLogout = tru
     <header class="qv-header">
       <div class="qv-header__inner">
         <a class="qv-header__brand" href="/">
-          <span class="qv-logo" aria-hidden="true">QV</span>
+          <img class="qv-logo-img" src="/favicon.ico" alt="" width="32" height="32" />
           <div class="qv-header__brand-text">
-            <span class="qv-header__brand-name">Grupo QuartaVia</span>
-            {subtitle && <span class="qv-header__subtitle">{subtitle}</span>}
+            <span class="qv-header__brand-name">Analytics QuartaVia</span>
+            <span class="qv-header__subtitle">Inteligência • Dados • Analytics</span>
           </div>
         </a>
 
@@ -96,29 +99,24 @@ const { title = "Grupo QuartaVia", subtitle, showPortal = true, showLogout = tru
         text-decoration: none;
         color: var(--color-text);
         flex-shrink: 0;
+        min-width: 0;
       }
       .qv-header__brand:hover { text-decoration: none; }
 
-      .qv-logo {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+      .qv-logo-img {
         width: 32px;
         height: 32px;
         border-radius: var(--radius-md);
-        background: var(--gradient-primary);
-        color: var(--color-text-on-primary);
-        font-weight: var(--fw-bold);
-        font-size: 11px;
-        letter-spacing: 0.02em;
-        box-shadow: 0 2px 8px rgba(244, 121, 32, 0.35);
+        object-fit: contain;
         flex-shrink: 0;
+        display: block;
       }
 
       .qv-header__brand-text {
         display: flex;
         flex-direction: column;
-        gap: 1px;
+        gap: 2px;
+        min-width: 0;
       }
 
       .qv-header__brand-name {
@@ -136,7 +134,7 @@ const { title = "Grupo QuartaVia", subtitle, showPortal = true, showLogout = tru
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 300px;
+        max-width: 280px;
       }
 
       .qv-header__nav {
@@ -196,7 +194,7 @@ const { title = "Grupo QuartaVia", subtitle, showPortal = true, showLogout = tru
         padding: var(--space-6);
       }
 
-      @media (max-width: 640px) {
+      @media (max-width: 480px) {
         .qv-header__inner { padding: 0 var(--space-4); }
         .qv-main { padding: var(--space-4); }
         .qv-header__subtitle { display: none; }
