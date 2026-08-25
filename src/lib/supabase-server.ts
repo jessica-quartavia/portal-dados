@@ -1,39 +1,60 @@
-import { createServerClient } from '@supabase/ssr';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import type { AstroCookies } from 'astro';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
+function readEnv(name: string): string {
+  const fromMeta = (import.meta.env as Record<string, string | undefined>)[name];
+  const fromProcess =
+    typeof process !== 'undefined' ? process.env[name] : undefined;
+  return (fromMeta || fromProcess || '').trim();
+}
+
+export function getAuthEnv(): { url: string; key: string; configured: boolean } {
+  const url = readEnv('PUBLIC_AUTH_SUPABASE_URL');
+  const key = readEnv('PUBLIC_AUTH_SUPABASE_ANON_KEY');
+  return { url, key, configured: Boolean(url && key) };
+}
 
 /**
- * Cria um cliente Supabase Auth server-side que lê/escreve sessão via cookies.
- * Usar apenas em middleware, API routes e páginas Astro (server-side).
- * Conecta ao projeto Business Data (rckpuebaiswrxzmywllv) — autenticação.
+ * Cliente Supabase Auth server-side (cookies).
+ * Retorna null se as variáveis não estiverem configuradas — nunca lança.
  */
-export function createAuthServerClient(request: Request, cookies: AstroCookies) {
-  const url = import.meta.env.PUBLIC_AUTH_SUPABASE_URL as string;
-  const key = import.meta.env.PUBLIC_AUTH_SUPABASE_ANON_KEY as string;
+export function createAuthServerClient(
+  request: Request,
+  cookies: AstroCookies,
+): SupabaseClient | null {
+  const { url, key, configured } = getAuthEnv();
+  if (!configured) return null;
 
-  return createServerClient(url, key, {
-    cookies: {
-      getAll() {
-        return (request.headers.get('cookie') ?? '')
-          .split(';')
-          .filter(Boolean)
-          .flatMap((c) => {
-            const idx = c.indexOf('=');
-            if (idx < 1) return [];
-            return [{ name: c.slice(0, idx).trim(), value: c.slice(idx + 1).trim() }];
+  try {
+    return createServerClient(url, key, {
+      cookies: {
+        getAll() {
+          return (request.headers.get('cookie') ?? '')
+            .split(';')
+            .filter(Boolean)
+            .flatMap((c) => {
+              const idx = c.indexOf('=');
+              if (idx < 1) return [];
+              return [{ name: c.slice(0, idx).trim(), value: c.slice(idx + 1).trim() }];
+            });
+        },
+        setAll(cookiesToSet: { name: string; value: string; options?: CookieOptions }[]) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookies.set(name, value, {
+              httpOnly: options?.httpOnly ?? true,
+              secure: import.meta.env.PROD,
+              sameSite: (options?.sameSite as 'lax' | 'strict' | 'none') ?? 'lax',
+              path: options?.path ?? '/',
+              ...(options?.maxAge !== undefined && { maxAge: options.maxAge }),
+              ...(options?.expires !== undefined && { expires: options.expires }),
+            });
           });
+        },
       },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) => {
-          cookies.set(name, value, {
-            httpOnly: options?.httpOnly ?? true,
-            secure: import.meta.env.PROD,
-            sameSite: (options?.sameSite as 'lax' | 'strict' | 'none') ?? 'lax',
-            path: options?.path ?? '/',
-            ...(options?.maxAge !== undefined && { maxAge: options.maxAge }),
-            ...(options?.expires !== undefined && { expires: options.expires }),
-          });
-        });
-      },
-    },
-  });
+    });
+  } catch (error) {
+    console.error('[Auth] falha ao criar cliente server:', error);
+    return null;
+  }
 }

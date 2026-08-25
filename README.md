@@ -55,7 +55,12 @@ GitHub → **Vercel** (preset Astro, build `npm run build`).
 
 **Não preencha Output Directory.** O adapter escreve em `.vercel/output` via Build Output API.
 
-O repositório Git deste projeto é a pasta do `package.json` — Root Directory na Vercel deve ficar **vazio**.
+O repositório Git deste projeto é a pasta do `package.json` — Root Directory na Vercel deve ficar **vazio**. Node.js: **24.x**.
+
+Obrigatórias na Vercel (sem elas o login não funciona; a home redireciona para `/login`):
+
+- `PUBLIC_AUTH_SUPABASE_URL`
+- `PUBLIC_AUTH_SUPABASE_ANON_KEY`
 
 Configure as variáveis de ambiente no painel da Vercel; o `.env` local não é versionado.
 

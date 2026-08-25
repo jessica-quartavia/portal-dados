@@ -2,8 +2,14 @@ import type { APIRoute } from 'astro';
 import { createAuthServerClient } from '../../lib/supabase-server';
 
 async function doLogout(request: Request, cookies: Parameters<APIRoute>[0]['cookies']) {
-  const supabase = createAuthServerClient(request, cookies);
-  await supabase.auth.signOut();
+  try {
+    const supabase = createAuthServerClient(request, cookies);
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
+  } catch (error) {
+    console.error('[logout] falha ao encerrar sessão:', error);
+  }
   return new Response(null, { status: 302, headers: { Location: '/login' } });
 }
 

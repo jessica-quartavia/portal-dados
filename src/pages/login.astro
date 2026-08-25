@@ -6,9 +6,17 @@ import LoginWithGoogle from "../components/LoginWithGoogle";
 import { createAuthServerClient } from '../lib/supabase-server';
 import { isAllowedEmail } from '../lib/auth';
 
-const supabase = createAuthServerClient(Astro.request, Astro.cookies);
-const { data: { session } } = await supabase.auth.getSession();
-if (session && isAllowedEmail(session.user.email)) {
+let alreadySignedIn = false;
+try {
+  const supabase = createAuthServerClient(Astro.request, Astro.cookies);
+  if (supabase) {
+    const { data: { session } } = await supabase.auth.getSession();
+    alreadySignedIn = Boolean(session && isAllowedEmail(session.user.email));
+  }
+} catch (error) {
+  console.error('[login] falha ao verificar sessão:', error);
+}
+if (alreadySignedIn) {
   return Astro.redirect('/');
 }
 
@@ -19,6 +27,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   auth_failed:         'Falha na autenticação com o Google. Tente novamente.',
   exchange_failed:     'Falha ao concluir login com Google. Tente novamente.',
   session_missing:     'Sessão não encontrada após autenticação. Tente novamente.',
+  auth_config:         'Autenticação indisponível. Verifique as variáveis PUBLIC_AUTH_SUPABASE_* na hospedagem.',
 };
 const errorMessage = errorParam ? (ERROR_MESSAGES[errorParam] ?? `Erro de autenticação: ${errorParam}`) : '';
 ---

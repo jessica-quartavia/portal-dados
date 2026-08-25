@@ -3,9 +3,27 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { getPortalProjects } from "../data/portal";
 
-const projects = getPortalProjects();
-const featured = projects.find((project) => project.featured) ?? projects[0];
-const catalog = projects.filter((project) => project.slug !== featured.slug);
+let featured;
+let catalog = [];
+try {
+  const projects = getPortalProjects();
+  featured = projects.find((project) => project.featured) ?? projects[0];
+  catalog = projects.filter((project) => project.slug !== featured.slug);
+} catch (error) {
+  console.error('[home] falha ao montar projetos:', error);
+  featured = {
+    slug: "jornada-cliente",
+    title: "Analytics QuartaVia - Jornada do cliente",
+    category: "Produto principal",
+    description:
+      "Portal analítico da Jornada do Cliente, reunindo indicadores, análises e insights sobre comportamento, operação, permanência e experiência dos clientes da QuartaVia.",
+    href: "https://dash-simplificado.vercel.app/#executive",
+    external: true,
+    icon: "route",
+    cta: "Abrir jornada do cliente",
+    featured: true,
+  };
+}
 ---
 
 <BaseLayout title="Analytics QuartaVia" showPortal={false}>

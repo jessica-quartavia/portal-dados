@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "20.x"
+    "node": "24.x"
   },
   "description": "Portal Analytics QuartaVia — dashboards e design system (coral #E85D3A, dark/light).",
   "scripts": {
