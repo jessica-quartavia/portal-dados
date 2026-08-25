@@ -1,10 +1,11 @@
 ---
 import "../../packages/design-system/theme.css";
+import ThemeInit from "../components/ThemeInit.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import LoginWithGoogle from "../components/LoginWithGoogle";
 import { createAuthServerClient } from '../lib/supabase-server';
 import { isAllowedEmail } from '../lib/auth';
 
-// Já autenticado com e-mail válido → vai direto ao portal
 const supabase = createAuthServerClient(Astro.request, Astro.cookies);
 const { data: { session } } = await supabase.auth.getSession();
 if (session && isAllowedEmail(session.user.email)) {
@@ -23,41 +24,35 @@ const errorMessage = errorParam ? (ERROR_MESSAGES[errorParam] ?? `Erro de autent
 ---
 
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
     <title>Acesso · Analytics QuartaVia</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&display=swap"
-      rel="stylesheet"
-    />
+    <ThemeInit />
   </head>
   <body class="login-body">
-
-    <div class="login-glow" aria-hidden="true"></div>
+    <div class="login-toolbar">
+      <ThemeToggle />
+    </div>
 
     <main class="login-main">
       <div class="login-card">
-
         <div class="login-brand">
           <img class="login-logo-img" src="/favicon.ico" alt="" width="40" height="40" />
           <div class="login-brand-text">
             <span class="login-brand-name">Analytics QuartaVia</span>
-            <span class="login-brand-sub">Inteligência • Dados • Analytics</span>
+            <span class="login-brand-sub">Inteligência</span>
           </div>
         </div>
 
-        <div class="login-divider"></div>
-
         <div class="login-heading">
-          <h1 class="login-title">Acesso ao portal</h1>
+          <p class="eyebrow">Acesso interno</p>
+          <h1 class="login-title">Entre no portal</h1>
           <p class="login-subtitle">
-            Entre com sua conta corporativa Google da Quarta Via
+            Use a conta Google corporativa da QuartaVia.
           </p>
         </div>
 
@@ -76,10 +71,8 @@ const errorMessage = errorParam ? (ERROR_MESSAGES[errorParam] ?? `Erro de autent
         <p class="login-hint">
           Acesso restrito a contas <strong>@quartavia.com.br</strong>
         </p>
-
       </div>
     </main>
-
   </body>
 </html>
 
@@ -90,46 +83,41 @@ const errorMessage = errorParam ? (ERROR_MESSAGES[errorParam] ?? `Erro de autent
     align-items: center;
     justify-content: center;
     background-color: var(--color-bg);
-    position: relative;
-    overflow: hidden;
+    background-image: none;
   }
-  .login-glow {
-    position: fixed;
-    top: -20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 700px;
-    height: 400px;
-    background: radial-gradient(ellipse at center, rgba(244,121,32,.09) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
+
+  .login-toolbar {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
   }
+
   .login-main {
-    position: relative;
-    z-index: 1;
     width: 100%;
     padding: var(--space-5);
     display: flex;
     justify-content: center;
   }
+
   .login-card {
     width: 100%;
     max-width: 400px;
     background: var(--color-surface);
-    background-image: var(--gradient-card);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
+    border-radius: 14px;
     padding: var(--space-7) var(--space-6);
-    box-shadow: 0 8px 48px rgba(0,0,0,.6), 0 2px 12px rgba(0,0,0,.4);
+    box-shadow: var(--shadow-card);
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
   }
+
   .login-brand {
     display: flex;
     align-items: center;
     gap: var(--space-3);
   }
+
   .login-logo-img {
     width: 40px;
     height: 40px;
@@ -138,52 +126,81 @@ const errorMessage = errorParam ? (ERROR_MESSAGES[errorParam] ?? `Erro de autent
     display: block;
     flex-shrink: 0;
   }
-  .login-brand-text { display: flex; flex-direction: column; gap: 2px; }
+
+  .login-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
   .login-brand-name {
+    font-family: var(--font-heading);
     font-size: var(--fs-sm);
-    font-weight: var(--fw-semibold);
+    font-weight: var(--fw-medium);
     color: var(--color-text);
-    letter-spacing: -.01em;
   }
-  .login-brand-sub { font-size: var(--fs-xs); color: var(--color-text-subtle); }
-  .login-divider {
-    height: 1px;
-    background: var(--color-border);
-    margin: 0 calc(-1 * var(--space-6));
+
+  .login-brand-sub {
+    font-size: var(--fs-xs);
+    color: var(--color-text-subtle);
   }
-  .login-heading { display: flex; flex-direction: column; gap: var(--space-2); }
+
+  .eyebrow {
+    font-family: var(--font-heading);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 var(--space-2);
+  }
+
+  .login-heading {
+    display: flex;
+    flex-direction: column;
+  }
+
   .login-title {
     font-size: var(--fs-xl);
-    font-weight: var(--fw-bold);
-    margin: 0;
-    letter-spacing: -.02em;
+    font-weight: var(--fw-medium);
+    margin: 0 0 var(--space-2);
+    letter-spacing: -0.02em;
     color: var(--color-text);
     line-height: var(--lh-tight);
   }
+
   .login-subtitle {
     font-size: var(--fs-sm);
     color: var(--color-text-muted);
     margin: 0;
     line-height: var(--lh-relaxed);
   }
+
   .login-error {
     display: flex;
     align-items: center;
     gap: var(--space-2);
     background: var(--color-danger-soft);
     color: var(--color-danger);
-    border: 1px solid rgba(229,72,77,.25);
     border-radius: var(--radius-md);
     padding: var(--space-3) var(--space-4);
     font-size: var(--fs-sm);
     font-weight: var(--fw-medium);
   }
-  .login-error svg { flex-shrink: 0; }
+
+  .login-error svg {
+    flex-shrink: 0;
+  }
+
   .login-hint {
     font-size: var(--fs-xs);
     color: var(--color-text-subtle);
     text-align: center;
     margin: 0;
   }
-  .login-hint strong { color: var(--color-text-muted); font-weight: var(--fw-medium); }
+
+  .login-hint strong {
+    color: var(--color-text-muted);
+    font-weight: var(--fw-medium);
+  }
 </style>

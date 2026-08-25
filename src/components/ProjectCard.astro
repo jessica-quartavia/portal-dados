@@ -2,6 +2,7 @@
 import LayoutDashboard from "@lucide/astro/icons/layout-dashboard";
 import ChartNoAxesCombined from "@lucide/astro/icons/chart-no-axes-combined";
 import BookOpen from "@lucide/astro/icons/book-open";
+import Route from "@lucide/astro/icons/route";
 import ArrowRight from "@lucide/astro/icons/arrow-right";
 import ExternalLink from "@lucide/astro/icons/external-link";
 import type { PortalProject } from "../data/portal";
@@ -11,34 +12,52 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, category, description, href, external, icon, cta, meta } = project;
+const { title, category, description, href, external, icon, cta, meta, featured } = project;
 ---
 
 <a
-  class="project-card"
+  class:list={["project-card", featured && "project-card--featured"]}
   href={href}
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
 >
-  <div class="project-card__icon" aria-hidden="true">
-    {icon === "layout-dashboard" && <LayoutDashboard size={28} stroke-width={1.75} />}
-    {icon === "chart-no-axes-combined" && <ChartNoAxesCombined size={28} stroke-width={1.75} />}
-    {icon === "book-open" && <BookOpen size={28} stroke-width={1.75} />}
+  <div class="project-card__body">
+    <div class="project-card__top">
+      <div class="project-card__icon" aria-hidden="true">
+        {icon === "route" && <Route size={22} stroke-width={1.75} />}
+        {icon === "layout-dashboard" && <LayoutDashboard size={20} stroke-width={1.75} />}
+        {icon === "chart-no-axes-combined" && <ChartNoAxesCombined size={20} stroke-width={1.75} />}
+        {icon === "book-open" && <BookOpen size={20} stroke-width={1.75} />}
+      </div>
+      {featured && <span class="project-card__badge">Principal</span>}
+    </div>
+
+    <p class="project-card__category">{category}</p>
+    <h2 class="project-card__title">{title}</h2>
+    {meta && <p class="project-card__meta">{meta}</p>}
+    <p class="project-card__desc">{description}</p>
+
+    <span class="project-card__cta">
+      {cta}
+      {external ? (
+        <ExternalLink size={14} stroke-width={2} aria-hidden="true" />
+      ) : (
+        <ArrowRight size={14} stroke-width={2} aria-hidden="true" />
+      )}
+    </span>
   </div>
 
-  <p class="project-card__category">{category}</p>
-  <h2 class="project-card__title">{title}</h2>
-  {meta && <p class="project-card__meta">{meta}</p>}
-  <p class="project-card__desc">{description}</p>
-
-  <span class="project-card__cta">
-    {cta}
-    {external ? (
-      <ExternalLink size={14} stroke-width={2} aria-hidden="true" />
-    ) : (
-      <ArrowRight size={14} stroke-width={2} aria-hidden="true" />
-    )}
-  </span>
+  {featured && (
+    <div class="project-card__preview" aria-hidden="true">
+      <div class="preview-panel">
+        <span class="preview-bar" style="width: 72%"></span>
+        <span class="preview-bar" style="width: 46%"></span>
+        <span class="preview-bar preview-bar--accent" style="width: 88%"></span>
+        <span class="preview-bar" style="width: 58%"></span>
+        <span class="preview-bar" style="width: 34%"></span>
+      </div>
+    </div>
+  )}
 </a>
 
 <style>
@@ -46,27 +65,30 @@ const { title, category, description, href, external, icon, cta, meta } = projec
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 292px;
-    padding: var(--space-6);
+    min-height: 0;
+    padding: var(--space-5);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: 14px;
     text-decoration: none;
     color: var(--color-text);
     cursor: pointer;
+    overflow: hidden;
     transition:
-      border-color 0.2s ease,
-      background-color 0.2s ease,
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
+      border-color 0.18s ease,
+      background-color 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .project-card--featured {
+    padding: 0;
   }
 
   .project-card:hover {
     border-color: var(--color-border-strong);
-    background: var(--color-surface-2);
-    box-shadow: var(--shadow-card);
-    transform: translateY(-3px);
+    background: var(--color-surface);
     text-decoration: none;
+    transform: translateY(-1px);
   }
 
   .project-card:focus-visible {
@@ -74,51 +96,84 @@ const { title, category, description, href, external, icon, cta, meta } = projec
     outline-offset: 3px;
   }
 
+  .project-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .project-card--featured .project-card__body {
+    padding: var(--space-6);
+  }
+
+  .project-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
   .project-card__icon {
-    width: 52px;
-    height: 52px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: var(--space-5);
-    border-radius: var(--radius-md);
-    background: var(--color-primary-tint);
-    color: var(--color-primary);
-    border: 1px solid var(--color-primary-tint);
-    transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      color 0.2s ease,
-      transform 0.2s ease;
+    border-radius: 10px;
+    background: var(--color-surface-2);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
   }
 
-  .project-card:hover .project-card__icon {
-    border-color: var(--color-primary);
-    transform: translateY(-1px);
+  .project-card--featured .project-card__icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-primary);
+    background: var(--color-primary-tint);
+    border-color: transparent;
+  }
+
+  .project-card__badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    background: var(--color-primary-tint);
+    padding: 4px 9px;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
   }
 
   .project-card__category {
-    margin: 0 0 var(--space-2);
-    font-size: var(--fs-xs);
-    font-weight: var(--fw-semibold);
-    color: var(--color-primary);
+    margin: 0 0 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-subtle);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
   }
 
   .project-card__title {
     margin: 0 0 var(--space-2);
-    font-size: var(--fs-lg);
-    font-weight: var(--fw-semibold);
-    letter-spacing: -0.02em;
-    line-height: var(--lh-tight);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
     color: var(--color-text);
+  }
+
+  .project-card--featured .project-card__title {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
   }
 
   .project-card__meta {
     margin: 0 0 var(--space-3);
     font-size: var(--fs-xs);
-    font-weight: var(--fw-medium);
+    font-weight: 500;
     color: var(--color-text-subtle);
   }
 
@@ -126,7 +181,7 @@ const { title, category, description, href, external, icon, cta, meta } = projec
     margin: 0 0 var(--space-5);
     font-size: var(--fs-sm);
     color: var(--color-text-muted);
-    line-height: var(--lh-relaxed);
+    line-height: 1.6;
     flex: 1;
   }
 
@@ -136,26 +191,68 @@ const { title, category, description, href, external, icon, cta, meta } = projec
     gap: var(--space-2);
     margin-top: auto;
     font-size: var(--fs-sm);
-    font-weight: var(--fw-semibold);
-    color: var(--color-primary);
-    transition: gap 0.2s ease, color 0.2s ease;
+    font-weight: 600;
+    color: var(--color-text);
+    transition: color 0.15s ease, gap 0.15s ease;
   }
 
   .project-card:hover .project-card__cta {
-    gap: var(--space-3);
-    color: var(--color-primary-hover);
+    color: var(--color-primary);
+    gap: 10px;
+  }
+
+  .project-card__preview {
+    display: none;
+    background: var(--color-surface-2);
+    border-left: 1px solid var(--color-border);
+    min-height: 100%;
+  }
+
+  .preview-panel {
+    height: 100%;
+    min-height: 168px;
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .preview-bar {
+    display: block;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--color-border-strong);
+    opacity: 0.7;
+  }
+
+  .preview-bar--accent {
+    background: var(--color-primary);
+    opacity: 0.85;
+  }
+
+  @media (min-width: 960px) {
+    .project-card--featured {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.7fr);
+      align-items: stretch;
+    }
+
+    .project-card__preview {
+      display: block;
+    }
   }
 
   @media (max-width: 640px) {
-    .project-card {
-      min-height: 0;
+    .project-card,
+    .project-card--featured .project-card__body {
       padding: var(--space-5);
     }
+  }
 
-    .project-card__icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: var(--space-4);
+  @media (prefers-reduced-motion: reduce) {
+    .project-card:hover {
+      transform: none;
     }
   }
 </style>

@@ -1,0 +1,20 @@
+---
+/**
+ * Aplica o tema persistido antes da pintura para evitar flash.
+ * Padrão: dark. Deve ficar no <head>, o mais cedo possível.
+ */
+---
+
+<script is:inline>
+  (function () {
+    try {
+      var stored = localStorage.getItem("qv-theme");
+      var theme = stored === "light" || stored === "dark" ? stored : "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.style.colorScheme = theme;
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      document.documentElement.style.colorScheme = "dark";
+    }
+  })();
+</script>

@@ -5,57 +5,60 @@
    ========================================================================== */
 
 :root {
-  /* Marca / acento — usar laranja APENAS para ação e destaque */
-  --color-primary: #f47920;
-  --color-primary-hover: #d8661a;
-  --color-primary-active: #bf5613;
-  --color-primary-soft: #ffb066;
-  --color-primary-tint: rgba(244, 121, 32, 0.12);
+  /* Marca — laranja QuartaVia refinado, só accent */
+  --color-primary: #e07a32;
+  --color-primary-hover: #c96a28;
+  --color-primary-active: #b05c22;
+  --color-primary-soft: #f0c4a4;
+  --color-primary-tint: rgba(224, 122, 50, 0.12);
 
-  /* Fundo / superfícies (dark-first) */
-  --color-bg: #0d0d0d;
-  --color-surface: #1a1a1a;
-  --color-surface-2: #222222;
-  --color-overlay: rgba(0, 0, 0, 0.6);
+  /* Dark (padrão) */
+  --color-bg: #111110;
+  --color-surface: #1a1917;
+  --color-surface-2: #232220;
+  --color-overlay: rgba(10, 10, 9, 0.62);
 
   /* Bordas */
-  --color-border: #2a2a2a;
-  --color-border-strong: #3a3a3a;
-  --color-border-focus: #f47920;
+  --color-border: #2a2926;
+  --color-border-strong: #3d3b36;
+  --color-border-focus: #e07a32;
+  --color-header-border: rgba(245, 242, 237, 0.06);
 
   /* Texto */
-  --color-text: #ffffff;
-  --color-text-muted: #b3b3b3;
-  --color-text-subtle: #7a7a7a;
-  --color-text-on-primary: #0d0d0d;
-  --color-link: #f47920;
+  --color-text: #eeebe6;
+  --color-text-muted: #b0aaa2;
+  --color-text-subtle: #7d776f;
+  --color-text-on-primary: #ffffff;
+  --color-link: #e07a32;
 
   /* Semânticas */
-  --color-success: #3fb950;
-  --color-warning: #f5a623;
-  --color-danger: #e5484d;
+  --color-success: #22a45a;
+  --color-warning: #d18426;
+  --color-danger: #ea6c4c;
   --color-info: #3b82f6;
-  --color-success-soft: rgba(63, 185, 80, 0.14);
-  --color-warning-soft: rgba(245, 166, 35, 0.14);
-  --color-danger-soft: rgba(229, 72, 77, 0.14);
+  --color-success-soft: rgba(34, 164, 90, 0.14);
+  --color-warning-soft: rgba(209, 132, 38, 0.14);
+  --color-danger-soft: rgba(234, 108, 76, 0.14);
   --color-info-soft: rgba(59, 130, 246, 0.14);
 
   /* Gráficos */
-  --chart-1: #f47920;
-  --chart-2: #ffb066;
+  --chart-1: #e07a32;
+  --chart-2: #f0c4a4;
   --chart-3: #8ab4f8;
-  --chart-4: #3fb950;
+  --chart-4: #22a45a;
   --chart-5: #c792ea;
   --chart-6: #56d4dd;
-  --chart-7: #e5484d;
-  --chart-8: #f5a623;
-  --chart-grid: #2a2a2a;
-  --chart-axis: #7a7a7a;
-  --chart-tooltip-bg: #222222;
+  --chart-7: #ea6c4c;
+  --chart-8: #d18426;
+  --chart-grid: #2f2c28;
+  --chart-axis: #81786e;
+  --chart-tooltip-bg: #252320;
 
-  /* Tipografia */
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  /* Tipografia — system stack (sem webfont) */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+  --font-mono: "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
   --fs-xs: 12px;
   --fs-sm: 14px;
   --fs-base: 16px;
@@ -89,25 +92,60 @@
   --radius-full: 9999px;
 
   /* Sombras base */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.32);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.22);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.22);
+  --shadow-card-hover: 0 8px 28px rgba(0, 0, 0, 0.32);
+  --shadow-hover: var(--shadow-card-hover);
+  --shadow-btn-primary: 0 2px 8px rgba(224, 122, 50, 0.22);
+  --shadow-btn-primary-hover: 0 4px 12px rgba(224, 122, 50, 0.28);
+  --shadow-header: none;
+  --container-max: 1400px;
 
-  /* Sombras estendidas (profundidade premium) */
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 8px rgba(0, 0, 0, 0.25);
-  --shadow-card-hover: 0 4px 24px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-btn-primary: 0 2px 10px rgba(244, 121, 32, 0.3);
-  --shadow-btn-primary-hover: 0 4px 20px rgba(244, 121, 32, 0.45);
-  --shadow-header: 0 1px 0 rgba(255, 255, 255, 0.04), 0 4px 32px rgba(0, 0, 0, 0.5);
-
-  /* Gradientes */
-  --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.025) 0%, transparent 60%);
-  --gradient-primary: linear-gradient(135deg, #f58833 0%, #e06818 100%);
-  --gradient-hero: radial-gradient(ellipse 90% 50% at 50% -10%, rgba(244, 121, 32, 0.07) 0%, transparent 65%);
+  /* Gradientes (botões/cards de dashboard — não usar no hero) */
+  --gradient-card: none;
+  --gradient-primary: #e07a32;
 
   /* Header */
-  --header-bg: rgba(20, 20, 20, 0.82);
-  --header-blur: blur(20px);
+  --header-bg: rgba(17, 17, 16, 0.78);
+  --header-blur: blur(18px) saturate(1.2);
+
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --color-bg: #f3f1ec;
+  --color-surface: #faf8f4;
+  --color-surface-2: #efece6;
+  --color-overlay: rgba(17, 16, 14, 0.4);
+  --color-border: #e4e0d8;
+  --color-border-strong: #d2cdc3;
+  --color-header-border: rgba(23, 20, 17, 0.07);
+  --color-text: #171411;
+  --color-text-muted: #5c564e;
+  --color-text-subtle: #7a746b;
+  --color-text-on-primary: #ffffff;
+  --color-success-soft: rgba(34, 164, 90, 0.1);
+  --color-warning-soft: rgba(209, 132, 38, 0.1);
+  --color-danger-soft: rgba(234, 108, 76, 0.1);
+  --color-info-soft: rgba(59, 130, 246, 0.1);
+  --chart-grid: #e4e0d8;
+  --chart-axis: #7a746b;
+  --chart-tooltip-bg: #faf8f4;
+  --shadow-sm: 0 1px 2px rgba(23, 20, 17, 0.04);
+  --shadow-md: 0 4px 12px rgba(23, 20, 17, 0.05);
+  --shadow-lg: 0 12px 28px rgba(23, 20, 17, 0.07);
+  --shadow-soft: none;
+  --shadow-card: none;
+  --shadow-card-hover: none;
+  --shadow-btn-primary: 0 2px 8px rgba(224, 122, 50, 0.16);
+  --shadow-btn-primary-hover: 0 4px 12px rgba(224, 122, 50, 0.22);
+  --shadow-header: none;
+  --gradient-card: none;
+  --header-bg: rgba(243, 241, 236, 0.82);
+  color-scheme: light;
 }
 
 /* --------------------------------------------------------------------------
@@ -133,6 +171,19 @@ body {
   font-size: var(--fs-base);
   line-height: var(--lh-normal);
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: var(--fw-medium);
+}
+
+button,
+.qv-btn,
+.qv-kpi__label,
+.qv-dash-card__tag,
+.qv-badge {
+  font-family: var(--font-heading);
 }
 
 a {
@@ -352,7 +403,7 @@ a.qv-card:hover,
   color: var(--color-info);
 }
 .qv-badge--neutral {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--color-surface-2);
   color: var(--color-text-muted);
 }
 
@@ -616,4 +667,20 @@ a.qv-card:hover,
   background: var(--color-surface-2);
   border-radius: var(--radius-md);
   animation: qv-skeleton 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .qv-dash-card:hover,
+  .qv-btn--primary:hover {
+    transform: none;
+  }
 }

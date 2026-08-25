@@ -1,13 +1,6 @@
 /**
- * Grupo Quarta Via — Preset Tailwind
- * Mapeia os design tokens (tokens.json / theme.css) para classes utilitárias.
- * Use em tailwind.config.js:
- *   import preset from './packages/design-system/tailwind.preset.js'
- *   export default { presets: [preset], ... }
- *
- * Exemplos de uso:
- *   bg-bg  bg-surface  text-text  text-muted  border-border
- *   bg-primary  hover:bg-primary-hover  text-on-primary
+ * Analytics QuartaVia — Preset Tailwind
+ * Cores via CSS variables para acompanhar Light/Dark.
  */
 
 /** @type {import('tailwindcss').Config} */
@@ -16,44 +9,45 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#f47920",
-          hover: "#d8661a",
-          active: "#bf5613",
-          soft: "#ffb066",
+          DEFAULT: "var(--color-primary)",
+          hover: "var(--color-primary-hover)",
+          active: "var(--color-primary-active)",
+          soft: "var(--color-primary-soft)",
         },
-        bg: "#0d0d0d",
+        bg: "var(--color-bg)",
         surface: {
-          DEFAULT: "#1a1a1a",
-          2: "#222222",
+          DEFAULT: "var(--color-surface)",
+          2: "var(--color-surface-2)",
         },
         border: {
-          DEFAULT: "#2a2a2a",
-          strong: "#3a3a3a",
+          DEFAULT: "var(--color-border)",
+          strong: "var(--color-border-strong)",
         },
         text: {
-          DEFAULT: "#ffffff",
-          muted: "#b3b3b3",
-          subtle: "#7a7a7a",
+          DEFAULT: "var(--color-text)",
+          muted: "var(--color-text-muted)",
+          subtle: "var(--color-text-subtle)",
         },
-        "on-primary": "#0d0d0d",
-        success: "#3fb950",
-        warning: "#f5a623",
-        danger: "#e5484d",
-        info: "#3b82f6",
+        "on-primary": "var(--color-text-on-primary)",
+        success: "var(--color-success)",
+        warning: "var(--color-warning)",
+        danger: "var(--color-danger)",
+        info: "var(--color-info)",
         chart: {
-          1: "#f47920",
-          2: "#ffb066",
-          3: "#8ab4f8",
-          4: "#3fb950",
-          5: "#c792ea",
-          6: "#56d4dd",
-          7: "#e5484d",
-          8: "#f5a623",
+          1: "var(--chart-1)",
+          2: "var(--chart-2)",
+          3: "var(--chart-3)",
+          4: "var(--chart-4)",
+          5: "var(--chart-5)",
+          6: "var(--chart-6)",
+          7: "var(--chart-7)",
+          8: "var(--chart-8)",
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Arial", "sans-serif"],
-        mono: ["JetBrains Mono", "SF Mono", "Menlo", "Consolas", "monospace"],
+        sans: ["var(--font-body)", "Georgia", "serif"],
+        heading: ["var(--font-heading)", "system-ui", "sans-serif"],
+        mono: ["SFMono-Regular", "SF Mono", "Menlo", "Consolas", "monospace"],
       },
       fontSize: {
         xs: "12px",
@@ -81,9 +75,11 @@ export default {
         full: "9999px",
       },
       boxShadow: {
-        sm: "0 1px 2px rgba(0, 0, 0, 0.4)",
-        md: "0 4px 12px rgba(0, 0, 0, 0.5)",
-        lg: "0 12px 32px rgba(0, 0, 0, 0.6)",
+        sm: "var(--shadow-sm)",
+        md: "var(--shadow-md)",
+        lg: "var(--shadow-lg)",
+        soft: "var(--shadow-soft)",
+        card: "var(--shadow-card)",
       },
     },
   },

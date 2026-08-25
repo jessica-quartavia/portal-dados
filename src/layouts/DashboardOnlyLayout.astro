@@ -1,5 +1,7 @@
 ---
 import "../../packages/design-system/theme.css";
+import ThemeInit from "../components/ThemeInit.astro";
+import PortalHeader from "../components/PortalHeader.astro";
 
 interface Props {
   title?: string;
@@ -12,164 +14,40 @@ const documentTitle =
 ---
 
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
     <title>{documentTitle}</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&display=swap"
-      rel="stylesheet"
-    />
+    <ThemeInit />
   </head>
   <body>
-    <header class="qv-header">
-      <div class="qv-header__inner">
-        <a class="qv-header__brand" href="/" aria-label="Analytics QuartaVia">
-          <img class="qv-logo-img" src="/favicon.ico" alt="" width="32" height="32" />
-          <div class="qv-header__brand-text">
-            <span class="qv-header__brand-name">Analytics QuartaVia</span>
-            <span class="qv-header__subtitle">Inteligência • Dados • Analytics</span>
-          </div>
-        </a>
-
-        <nav class="qv-header__nav">
-          <a class="qv-header__back" href="/">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Portal
-          </a>
-        </nav>
-      </div>
-    </header>
+    <PortalHeader showPortal={true} showLogout={false} />
 
     <main class="qv-main">
       <slot />
     </main>
-
-    <style>
-      .qv-header {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background-color: var(--header-bg);
-        backdrop-filter: var(--header-blur);
-        -webkit-backdrop-filter: var(--header-blur);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        box-shadow: var(--shadow-header);
-      }
-
-      .qv-header__inner {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 var(--space-6);
-        height: 56px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--space-4);
-      }
-
-      .qv-header__brand {
-        display: flex;
-        align-items: center;
-        gap: var(--space-3);
-        text-decoration: none;
-        color: var(--color-text);
-        flex-shrink: 0;
-        min-width: 0;
-      }
-
-      .qv-header__brand:hover {
-        text-decoration: none;
-      }
-
-      .qv-logo-img {
-        width: 32px;
-        height: 32px;
-        border-radius: var(--radius-md);
-        object-fit: contain;
-        flex-shrink: 0;
-        display: block;
-      }
-
-      .qv-header__brand-text {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        min-width: 0;
-      }
-
-      .qv-header__brand-name {
-        font-size: var(--fs-sm);
-        font-weight: var(--fw-semibold);
-        color: var(--color-text);
-        line-height: 1;
-        letter-spacing: -0.01em;
-      }
-
-      .qv-header__subtitle {
-        font-size: 11px;
-        color: var(--color-text-subtle);
-        line-height: 1;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 280px;
-      }
-
-      .qv-header__nav {
-        display: flex;
-        align-items: center;
-        gap: var(--space-2);
-      }
-
-      .qv-header__back {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: var(--fs-xs);
-        font-weight: var(--fw-medium);
-        color: var(--color-text-muted);
-        padding: 6px var(--space-3);
-        border-radius: var(--radius-md);
-        border: 1px solid transparent;
-        text-decoration: none;
-        transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
-        letter-spacing: 0.01em;
-      }
-
-      .qv-header__back:hover {
-        color: var(--color-text);
-        background-color: var(--color-surface-2);
-        border-color: var(--color-border);
-        text-decoration: none;
-      }
-
-      .qv-main {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: var(--space-6);
-      }
-
-      @media (max-width: 480px) {
-        .qv-header__inner {
-          padding: 0 var(--space-4);
-        }
-
-        .qv-main {
-          padding: var(--space-4);
-        }
-
-        .qv-header__subtitle {
-          display: none;
-        }
-      }
-    </style>
   </body>
 </html>
+
+<style>
+  .qv-main {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-6) 40px;
+  }
+
+  @media (max-width: 1024px) {
+    .qv-main {
+      padding: var(--space-5) var(--space-6);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .qv-main {
+      padding: var(--space-4);
+    }
+  }
+</style>

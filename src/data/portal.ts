@@ -89,6 +89,7 @@ export const dashboards: DashboardEntry[] = [
 export const visibleDashboards = dashboards.filter((d) => !d.devOnly);
 
 export type PortalProjectIcon =
+  | "route"
   | "layout-dashboard"
   | "chart-no-axes-combined"
   | "book-open";
@@ -103,19 +104,31 @@ export type PortalProject = {
   icon: PortalProjectIcon;
   cta: string;
   meta?: string;
+  featured?: boolean;
 };
 
 export function getPortalProjects(): PortalProject[] {
   const count = visibleDashboards.length;
 
-  // Novos projetos da Home entram neste array.
-  // Se o ícone for inédito, inclua o nome em PortalProjectIcon e o SVG em ProjectCard.astro.
+  // A ordem deste array define a Home. O primeiro item deve permanecer em destaque.
 
   return [
     {
+      slug: "jornada-cliente",
+      title: "Analytics QuartaVia - Jornada do cliente",
+      category: "Produto principal",
+      description:
+        "Portal analítico da Jornada do Cliente, reunindo indicadores, análises e insights sobre comportamento, operação, permanência e experiência dos clientes da QuartaVia.",
+      href: "https://dash-simplificado.vercel.app/#executive",
+      external: true,
+      icon: "route",
+      cta: "Abrir jornada do cliente",
+      featured: true,
+    },
+    {
       slug: "dashboards",
-      title: "DASHBOARDS",
-      category: "Dashboards",
+      title: "Dashboards",
+      category: "Interno",
       description:
         "Indicadores, análises e acompanhamento das principais áreas e operações da QuartaVia.",
       href: "/dashboards",

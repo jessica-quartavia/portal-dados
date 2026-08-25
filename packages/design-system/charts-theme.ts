@@ -1,47 +1,42 @@
 /**
- * Grupo Quarta Via — Tema de gráficos
- * Derivado de tokens.json. Reaproveite em qualquer biblioteca de data-viz
- * para manter a identidade visual (dark + laranja como destaque).
+ * Analytics QuartaVia — Tema de gráficos
+ * Coral como destaque. Superfícies acompanham o tema CSS quando possível.
  */
 
 export const qvColors = {
-  primary: "#f47920",
-  bg: "#0d0d0d",
-  surface: "#1a1a1a",
-  surface2: "#222222",
-  border: "#2a2a2a",
-  text: "#ffffff",
-  textMuted: "#b3b3b3",
-  axis: "#7a7a7a",
-  grid: "#2a2a2a",
+  primary: "#e85d3a",
+  bg: "#141311",
+  surface: "#1c1b18",
+  surface2: "#252320",
+  border: "#2f2c28",
+  text: "#f5f2ed",
+  textMuted: "#b5aea4",
+  axis: "#81786e",
+  grid: "#2f2c28",
 } as const;
 
-/** Paleta categórica — laranja sempre como 1ª série / destaque. */
+/** Paleta categórica — coral sempre como 1ª série / destaque. */
 export const qvCategorical = [
-  "#f47920",
-  "#ffb066",
+  "#e85d3a",
+  "#f3b5a4",
   "#8ab4f8",
-  "#3fb950",
+  "#22a45a",
   "#c792ea",
   "#56d4dd",
-  "#e5484d",
-  "#f5a623",
+  "#ea6c4c",
+  "#d18426",
 ] as const;
 
-/** Paleta sequencial (mapas de calor / intensidade) baseada no laranja. */
+/** Paleta sequencial (mapas de calor / intensidade) baseada no coral. */
 export const qvSequential = [
-  "#3a1e08",
-  "#7a3d10",
-  "#bf5613",
-  "#f47920",
-  "#ffb066",
-  "#ffd1a6",
+  "#3a1610",
+  "#7a2e1c",
+  "#b84226",
+  "#e85d3a",
+  "#f3b5a4",
+  "#f8d5cc",
 ] as const;
 
-/**
- * Tema pronto para Recharts (usado nos componentes de exemplo).
- * Aplique estas props nos eixos / grid / tooltip.
- */
 export const rechartsTheme = {
   grid: { stroke: qvColors.grid, strokeDasharray: "3 3" },
   axis: { stroke: qvColors.axis, tick: { fill: qvColors.textMuted, fontSize: 12 } },
@@ -57,15 +52,11 @@ export const rechartsTheme = {
   legend: { wrapperStyle: { color: qvColors.textMuted, fontSize: 12 } },
 } as const;
 
-/**
- * Tema pronto para ECharts — passe como segundo argumento de echarts.init
- * ou faça merge com a sua option.
- */
 export const echartsTheme = {
   color: [...qvCategorical],
   backgroundColor: "transparent",
-  textStyle: { color: qvColors.textMuted, fontFamily: "Inter, system-ui, sans-serif" },
-  title: { textStyle: { color: qvColors.text } },
+  textStyle: { color: qvColors.textMuted, fontFamily: "Carme, Georgia, serif" },
+  title: { textStyle: { color: qvColors.text, fontFamily: "Ubuntu, system-ui, sans-serif" } },
   legend: { textStyle: { color: qvColors.textMuted } },
   categoryAxis: {
     axisLine: { lineStyle: { color: qvColors.axis } },

@@ -1,6 +1,6 @@
-# AGENTS.md — Grupo Quarta Via · Dashboards
+# AGENTS.md — Analytics QuartaVia
 
-Este repositório guarda **todos os dashboards** do Grupo Quarta Via e o **design system** que os padroniza.
+Este repositório guarda o **portal Analytics QuartaVia**, os **dashboards** internos e o **design system** que os padroniza.
 
 ## Regra principal (leia antes de criar/editar qualquer UI)
 
@@ -10,7 +10,7 @@ Ao construir ou alterar **qualquer** dashboard/interface, siga **obrigatoriament
 - 🤖 Regras imperativas (resumo): [`docs/AI-GUIDELINES.md`](docs/AI-GUIDELINES.md)
 - 🎨 Tokens (fonte da verdade): [`packages/design-system/tokens.json`](packages/design-system/tokens.json) · [`theme.css`](packages/design-system/theme.css) · [`tailwind.preset.js`](packages/design-system/tailwind.preset.js) · [`charts-theme.ts`](packages/design-system/charts-theme.ts)
 
-**Em resumo:** dark-first (`#0D0D0D` fundo, `#1A1A1A` cards), texto branco/cinza, **laranja `#F47920` só em destaque/ação**, fonte **Inter**, escala de espaçamento 8px, gráficos com a paleta categórica (laranja primeiro) e tema escuro. **Nunca** use fundo claro ou cores fora dos tokens.
+**Em resumo:** dark padrão + light (`data-theme`), superfícies via `--color-bg` / `--color-surface`, **coral `#E85D3A` só em destaque/ação**, títulos **Ubuntu** e corpo **Carme**. **Nunca** hardcodar cores fora dos tokens.
 
 ## Estrutura
 
@@ -18,6 +18,7 @@ Ao construir ou alterar **qualquer** dashboard/interface, siga **obrigatoriament
 docs/                       Design system + guia para IA
 packages/design-system/     Tokens (CSS, Tailwind, JSON, tema de gráficos)
 src/pages/                  Portal (index) + 1 página por dashboard
+src/data/portal.ts          Registro da Home e dos dashboards
 src/components/             Componentes compartilhados (KPI, tabela, gráfico…)
 templates/dashboard-starter/  Ponto de partida de um novo dashboard
 ```
@@ -26,8 +27,7 @@ templates/dashboard-starter/  Ponto de partida de um novo dashboard
 
 1. Copie `templates/dashboard-starter/` para `src/pages/dashboards/<slug>.astro`.
 2. Construa consumindo os tokens (veja `AI-GUIDELINES.md`).
-3. Adicione o dashboard à lista do portal em `src/pages/index.astro`.
-4. `git push` → o Cloudflare Pages publica automaticamente.
+3. Adicione o dashboard à lista em `src/data/portal.ts`.
 
 ## Comandos
 
@@ -39,4 +39,4 @@ npm run build    # build de produção (pasta dist/)
 
 ## Hospedagem
 
-Repo **privado** no GitHub → **Cloudflare Pages** (build automático) → acesso protegido por **Cloudflare Access**. Custo: **R$0**. Ver [`docs/HOSTING.md`](docs/HOSTING.md).
+Repo no GitHub → **Vercel** (adaptador `@astrojs/vercel`). Acesso via Google OAuth corporativo (`@quartavia.com.br`) no Supabase. Ver [`docs/HOSTING.md`](docs/HOSTING.md).

@@ -4,95 +4,137 @@ import ProjectCard from "../components/ProjectCard.astro";
 import { getPortalProjects } from "../data/portal";
 
 const projects = getPortalProjects();
+const featured = projects.find((project) => project.featured) ?? projects[0];
+const catalog = projects.filter((project) => project.slug !== featured.slug);
 ---
 
 <BaseLayout title="Analytics QuartaVia" showPortal={false}>
 
-  <div class="portal-hero">
-    <div class="portal-hero__content">
-      <p class="portal-hero__eyebrow">Inteligência QuartaVia</p>
-      <h1 class="portal-hero__title">Analytics QuartaVia</h1>
-      <p class="portal-hero__desc">
-        Portal central dos projetos, sistemas e análises desenvolvidos pelo time de Inteligência da QuartaVia.
-      </p>
-      <p class="portal-hero__lead">
-        Acesse dashboards, ferramentas e soluções de dados em um único lugar.
-      </p>
-    </div>
-  </div>
+  <section class="portal-hero" aria-labelledby="portal-title">
+    <p class="eyebrow">Inteligência QuartaVia</p>
+    <h1 id="portal-title">Analytics QuartaVia</h1>
+    <p class="portal-hero__lead">
+      Central de produtos, dashboards e análises do time de Inteligência.
+    </p>
+  </section>
 
-  <section class="portal-projects" aria-label="Projetos do time de Inteligência">
-    {projects.map((project) => (
-      <ProjectCard project={project} />
-    ))}
+  <section class="portal-featured" aria-labelledby="featured-heading">
+    <h2 id="featured-heading" class="visually-hidden">Produto principal</h2>
+    <ProjectCard project={featured} />
+  </section>
+
+  <section class="portal-catalog" aria-labelledby="catalog-heading">
+    <div class="portal-catalog__intro">
+      <h2 id="catalog-heading">Produtos e ferramentas</h2>
+      <p class="note-muted">Sistemas e bases de análise da QuartaVia.</p>
+    </div>
+
+    <div class="portal-catalog__grid">
+      {catalog.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
   </section>
 
 </BaseLayout>
 
 <style>
-  .portal-hero {
-    background: var(--gradient-hero);
-    padding: var(--space-7) 0 var(--space-6);
-    margin-bottom: var(--space-6);
-  }
-
-  .portal-hero__eyebrow {
-    font-size: var(--fs-xs);
+  .eyebrow {
+    font-family: var(--font-heading);
+    font-size: 11px;
     font-weight: var(--fw-semibold);
-    color: var(--color-primary);
+    color: var(--color-text-subtle);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin: 0 0 var(--space-2);
+    letter-spacing: 0.14em;
+    margin: 0 0 var(--space-3);
   }
 
-  .portal-hero__title {
-    font-size: var(--fs-2xl);
-    font-weight: var(--fw-bold);
+  .portal-hero {
+    padding: var(--space-5) 0 var(--space-6);
+    background: none;
+  }
+
+  .portal-hero h1 {
     margin: 0 0 var(--space-3);
-    letter-spacing: -0.02em;
-    line-height: var(--lh-tight);
+    max-width: 18ch;
+    font-size: clamp(2rem, 3.4vw, 2.75rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
     color: var(--color-text);
   }
 
-  .portal-hero__desc {
-    color: var(--color-text-muted);
-    margin: 0 0 var(--space-3);
-    font-size: var(--fs-base);
-    max-width: 640px;
-    line-height: var(--lh-relaxed);
-  }
-
-  .portal-hero__lead {
-    color: var(--color-text-subtle);
+  .portal-hero__lead,
+  .note-muted {
     margin: 0;
-    font-size: var(--fs-sm);
-    max-width: 560px;
-    line-height: var(--lh-relaxed);
+    max-width: 36rem;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
   }
 
-  .portal-projects {
+  .portal-featured {
+    margin-bottom: var(--space-7);
+  }
+
+  .portal-catalog__intro {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .portal-catalog__intro h2 {
+    margin: 0;
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  .portal-catalog__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-5);
+    gap: var(--space-4);
     align-items: stretch;
   }
 
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   @media (min-width: 768px) {
-    .portal-projects {
+    .portal-catalog__grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   @media (min-width: 1100px) {
-    .portal-projects {
+    .portal-catalog__grid {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
   @media (max-width: 640px) {
     .portal-hero {
-      padding: var(--space-5) 0 var(--space-5);
-      margin-bottom: var(--space-5);
+      padding: var(--space-4) 0 var(--space-5);
+    }
+
+    .portal-hero h1 {
+      max-width: none;
+    }
+
+    .portal-featured {
+      margin-bottom: var(--space-6);
     }
   }
 </style>

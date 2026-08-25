@@ -1,0 +1,111 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={["theme-toggle", className]}
+  data-theme-toggle
+  aria-label="Ativar modo claro"
+  title="Alternar tema"
+>
+  <svg class="theme-toggle__icon theme-toggle__icon--sun" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.75" />
+    <path d="M12 3v1.5M12 19.5V21M3 12h1.5M19.5 12H21M5.64 5.64l1.06 1.06M17.3 17.3l1.06 1.06M5.64 18.36l1.06-1.06M17.3 6.7l1.06-1.06" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+  </svg>
+  <svg class="theme-toggle__icon theme-toggle__icon--moon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M18.5 14.2A7.2 7.2 0 0 1 9.8 5.5 7.4 7.4 0 1 0 18.5 14.2Z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" />
+  </svg>
+</button>
+
+<script>
+  const STORAGE_KEY = "qv-theme";
+
+  function currentTheme(): "light" | "dark" {
+    const attr = document.documentElement.getAttribute("data-theme");
+    return attr === "light" ? "light" : "dark";
+  }
+
+  function syncToggle(button: HTMLButtonElement, theme: "light" | "dark") {
+    const label = theme === "dark" ? "Ativar modo claro" : "Ativar modo escuro";
+    button.setAttribute("aria-label", label);
+    button.setAttribute("title", label);
+    button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+  }
+
+  function applyTheme(theme: "light" | "dark") {
+    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.style.colorScheme = theme;
+    try {
+      localStorage.setItem(STORAGE_KEY, theme);
+    } catch {
+      // persistência é UX; o tema da sessão ainda vale
+    }
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((btn) => {
+      syncToggle(btn, theme);
+    });
+  }
+
+  function bindToggles() {
+    const theme = currentTheme();
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((btn) => {
+      if (btn.dataset.bound === "true") {
+        syncToggle(btn, theme);
+        return;
+      }
+      btn.dataset.bound = "true";
+      syncToggle(btn, theme);
+      btn.addEventListener("click", () => {
+        applyTheme(currentTheme() === "dark" ? "light" : "dark");
+      });
+    });
+  }
+
+  bindToggles();
+  document.addEventListener("astro:page-load", bindToggles);
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--color-text);
+    background: var(--color-surface-2);
+    border-color: var(--color-border);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+
+  .theme-toggle__icon {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .theme-toggle__icon--sun,
+  :global(html:not([data-theme])) .theme-toggle__icon--sun {
+    display: block;
+  }
+
+  :global([data-theme="light"]) .theme-toggle__icon--moon {
+    display: block;
+  }
+</style>

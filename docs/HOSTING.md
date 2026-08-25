@@ -1,4 +1,12 @@
-# Hospedagem & GitHub — menor custo possível
+# Hospedagem & GitHub
+
+**Estado atual:** o portal publica na **Vercel** (`@astrojs/vercel`, `output: "server"`). O acesso é controlado por **Supabase Auth** (Google, domínio `@quartavia.com.br`), não por Cloudflare Access.
+
+A seção abaixo documenta uma arquitetura alternativa de custo zero (Cloudflare Pages + Access). Não é o deploy ativo deste repositório.
+
+---
+
+# Arquitetura alternativa — menor custo possível
 
 Dashboards do Grupo Quarta Via contêm **dados internos/privados** → a hospedagem precisa de **controle de acesso**. A combinação abaixo entrega isso a **custo R$0**.
 

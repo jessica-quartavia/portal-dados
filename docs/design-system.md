@@ -1,7 +1,7 @@
 # Design System — Grupo Quarta Via
 
 > Documento mestre de UX/UI para todos os dashboards e produtos de dados do Grupo Quarta Via.
-> **Tema dark-first** · acento **laranja `#F47920`** · tipografia **Inter**.
+> **Dark padrão + Light** · acento **coral `#E85D3A`** · tipografia **Ubuntu / Carme**.
 >
 > Fonte única da verdade dos valores: [`packages/design-system/tokens.json`](../packages/design-system/tokens.json).
 > Para gerar com IA, envie junto: [`docs/AI-GUIDELINES.md`](./AI-GUIDELINES.md).
@@ -25,10 +25,10 @@ Este design system existe para que **qualquer dashboard** — feito por um dev o
 
 ## 2. Princípios
 
-1. **Dark-first.** O fundo é sempre escuro (`--color-bg`). Não existe versão clara.
-2. **O dado é o herói.** A interface é neutra (preto/cinza) para o dado e os gráficos se destacarem.
-3. **Laranja é acento, não preenchimento.** `#F47920` aparece em ações, destaques e a 1ª série de gráfico — nunca em grandes áreas nem em blocos de texto.
-4. **Alto contraste e legível.** Texto branco sobre dark, mínimo WCAG AA.
+1. **Dois temas, um token.** Dark é o padrão; Light usa a mesma escala via `[data-theme]`. Nunca hardcodar fundos.
+2. **O dado é o herói.** A interface é neutra para o dado e os gráficos se destacarem.
+3. **Coral é acento, não preenchimento.** `#E85D3A` aparece em ações, destaques e a 1ª série de gráfico — nunca em grandes áreas nem em blocos de texto.
+4. **Alto contraste e legível.** Tokens de texto/fundo em cada tema, mínimo WCAG AA.
 5. **Consistência por tokens.** Mesma escala de espaço, raio e tipografia em tudo.
 
 ---
@@ -47,7 +47,7 @@ Acento da marca usado **somente** para ação e destaque.
 
 | Token (CSS) | Hex | Uso |
 |---|---|---|
-| `--color-primary` | `#F47920` | Ação/destaque, 1ª série de gráfico |
+| `--color-primary` | `#E85D3A` | Ação/destaque, 1ª série de gráfico |
 | `--color-primary-hover` | `#D8661A` | Hover do laranja |
 | `--color-primary-active` | `#BF5613` | Estado pressionado |
 | `--color-primary-soft` | `#FFB066` | Variante clara (2ª série, realces sutis) |
@@ -73,7 +73,7 @@ Acento da marca usado **somente** para ação e destaque.
 
 **Cores de gráfico (categórica)** — o laranja é sempre a 1ª série:
 
-`#F47920` · `#FFB066` · `#8AB4F8` · `#3FB950` · `#C792EA` · `#56D4DD` · `#E5484D` · `#F5A623`
+`#E85D3A` · `#F3B5A4` · `#8AB4F8` · `#22A45A` · `#C792EA` · `#56D4DD` · `#EA6C4C` · `#D18426`
 
 > ⚠️ Não use as cores semânticas (verde/vermelho) como cor de série categórica — reserve-as para indicar status, para não confundir o leitor.
 
@@ -81,7 +81,7 @@ Acento da marca usado **somente** para ação e destaque.
 
 ## 5. Tipografia
 
-- **Família:** `Inter` (fallback `system-ui`). Mono: `JetBrains Mono` para números/código quando necessário.
+- **Família:** títulos `Ubuntu`; corpo `Carme`. Mono: `SF Mono` / `Menlo` para números/código quando necessário.
 - **Escala:**
 
 | Token | Tamanho | Uso |
@@ -188,7 +188,7 @@ Tooltip: fundo `--color-surface-2`, borda `--color-border`, texto branco. Modal:
 **Faça ✅**
 - Fundo dark em tudo; laranja só em ação/destaque.
 - Consumir tokens (`var(--color-...)`, classes do preset).
-- Tipografia Inter e escala de espaçamento 8px.
+- Tipografia Ubuntu/Carme e escala de espaçamento 8px.
 - Legenda e tooltip em todo gráfico com múltiplas séries.
 
 **Não faça ❌**

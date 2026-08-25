@@ -1,0 +1,152 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  showPortal?: boolean;
+  showLogout?: boolean;
+}
+
+const { showPortal = false, showLogout = false } = Astro.props;
+---
+
+<header class="qv-header">
+  <div class="qv-header__inner">
+    <a class="qv-header__brand" href="/" aria-label="Analytics QuartaVia — início">
+      <img class="qv-logo-img" src="/favicon.ico" alt="" width="28" height="28" />
+      <span class="qv-header__brand-name">Analytics QuartaVia</span>
+      <span class="qv-header__chip">Inteligência</span>
+    </a>
+
+    <div class="qv-header__actions">
+      {showPortal && (
+        <a class="qv-header__back" href="/">Portal</a>
+      )}
+
+      <ThemeToggle />
+
+      {showLogout && (
+        <form method="post" action="/api/logout">
+          <button type="submit" class="qv-header__logout">Sair</button>
+        </form>
+      )}
+    </div>
+  </div>
+</header>
+
+<style>
+  .qv-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--header-bg);
+    backdrop-filter: var(--header-blur);
+    -webkit-backdrop-filter: var(--header-blur);
+    border-bottom: 1px solid var(--color-header-border);
+  }
+
+  .qv-header__inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .qv-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .qv-header__brand:hover {
+    text-decoration: none;
+  }
+
+  .qv-logo-img {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .qv-header__brand-name {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .qv-header__chip {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
+
+  .qv-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .qv-header__actions form {
+    margin: 0;
+  }
+
+  .qv-header__back,
+  .qv-header__logout {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .qv-header__back:hover {
+    color: var(--color-text);
+    background: var(--color-surface-2);
+    text-decoration: none;
+  }
+
+  .qv-header__logout:hover {
+    color: var(--color-danger);
+    background: var(--color-danger-soft);
+  }
+
+  @media (max-width: 1024px) {
+    .qv-header__inner {
+      padding: 0 var(--space-6);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .qv-header__inner {
+      padding: 0 var(--space-4);
+      height: 52px;
+    }
+
+    .qv-header__chip {
+      display: none;
+    }
+  }
+</style>
