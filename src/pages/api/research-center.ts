@@ -1,6 +1,8 @@
 import type { APIRoute } from "astro";
 import fallbackSnapshot from "../../data/researchCenterDbSnapshot.json";
 
+export const prerender = false;
+
 function snapshotResponse() {
   return new Response(JSON.stringify(fallbackSnapshot), {
     headers: {

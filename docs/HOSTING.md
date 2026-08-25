@@ -1,6 +1,8 @@
 # Hospedagem & GitHub
 
-**Estado atual:** o portal publica na **Vercel** (`@astrojs/vercel`, `output: "server"`). O acesso é controlado por **Supabase Auth** (Google, domínio `@quartavia.com.br`), não por Cloudflare Access.
+**Estado atual:** o portal publica na **Vercel** (`@astrojs/vercel` + Astro 6). Páginas principais (`/`, `/login`, `/dashboards`) são HTML estático; só `/auth/callback` e `/api/*` usam Serverless Functions (`nodejs24.x`). O acesso é controlado por **Supabase Auth** (Google, domínio `@quartavia.com.br`), não por Cloudflare Access.
+
+Na Vercel: Framework Preset **Astro**, Root Directory vazio, Build `npm run build`, **Output Directory vazio** (o adapter gera `.vercel/output`), Install `npm install`, Node.js **24.x**. Variáveis obrigatórias: `PUBLIC_AUTH_SUPABASE_URL`, `PUBLIC_AUTH_SUPABASE_ANON_KEY`.
 
 A seção abaixo documenta uma arquitetura alternativa de custo zero (Cloudflare Pages + Access). Não é o deploy ativo deste repositório.
 

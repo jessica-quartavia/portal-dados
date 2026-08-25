@@ -19,6 +19,10 @@ function isPublic(pathname: string): boolean {
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {
+  if ('isPrerendered' in context && context.isPrerendered) {
+    return next();
+  }
+
   const { pathname } = context.url;
 
   try {

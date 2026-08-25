@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { createAuthServerClient } from '../../lib/supabase-server';
 
+export const prerender = false;
+
 async function doLogout(request: Request, cookies: Parameters<APIRoute>[0]['cookies']) {
   try {
     const supabase = createAuthServerClient(request, cookies);

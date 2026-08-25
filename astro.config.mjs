@@ -2,12 +2,11 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
-import vercel from "@astrojs/vercel/serverless";
+import vercel from "@astrojs/vercel";
 
-// SSR é obrigatório: middleware de auth, /auth/callback, /api/* e cookies.
-// Não usar output static — a homepage protegida passaria a ser HTML público.
+// Páginas principais: estáticas (HTML).
+// SSR só onde precisa: /auth/callback e /api/* (prerender = false).
 export default defineConfig({
-  output: "server",
   adapter: vercel(),
   integrations: [
     react(),

@@ -14,14 +14,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^3.6.2",
-    "@astrojs/vercel": "^7.8.2",
-    "@astrojs/tailwind": "^5.1.2",
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/vercel": "^10.0.8",
+    "@astrojs/tailwind": "^6.0.2",
     "@lucide/astro": "^1.31.0",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.107.0",
     "@types/pg": "^8.20.0",
-    "astro": "^4.16.0",
+    "astro": "^6.4.8",
     "pg": "^8.22.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

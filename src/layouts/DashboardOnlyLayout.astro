@@ -2,6 +2,7 @@
 import "../../packages/design-system/theme.css";
 import ThemeInit from "../components/ThemeInit.astro";
 import PortalHeader from "../components/PortalHeader.astro";
+import AccessCover from "../components/AccessCover";
 
 interface Props {
   title?: string;
@@ -24,6 +25,7 @@ const documentTitle =
     <ThemeInit />
   </head>
   <body>
+    <AccessCover client:load />
     <PortalHeader showPortal={true} showLogout={false} />
 
     <main class="qv-main">
