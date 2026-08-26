@@ -89,7 +89,7 @@ export const dashboards: DashboardEntry[] = [
 export const visibleDashboards = dashboards.filter((d) => !d.devOnly);
 
 export type PortalProjectIcon =
-  | "route"
+  | "globe"
   | "layout-dashboard"
   | "chart-no-axes-combined"
   | "book-open";
@@ -121,7 +121,7 @@ export function getPortalProjects(): PortalProject[] {
         "Portal analítico da Jornada do Cliente, reunindo indicadores, análises e insights sobre comportamento, operação, permanência e experiência dos clientes da QuartaVia.",
       href: "https://dash-simplificado.vercel.app/#executive",
       external: true,
-      icon: "route",
+      icon: "globe",
       cta: "Abrir jornada do cliente",
       featured: true,
     },
@@ -139,10 +139,10 @@ export function getPortalProjects(): PortalProject[] {
     },
     {
       slug: "dashboard-geral",
-      title: "Dashboard Geral QuartaVia",
+      title: "Dashboard Geral Inteligência",
       category: "Analytics",
       description:
-        "Visão consolidada de indicadores, dados operacionais e análises da jornada dos clientes da QuartaVia.",
+        "Painel de estudos e análises do time de Inteligência, com visão consolidada de indicadores, dados operacionais e análises estratégicas.",
       href: "https://dash-jornada-cliente-dados-automacao.vercel.app/",
       external: true,
       icon: "chart-no-axes-combined",

@@ -1,7 +1,7 @@
 ---
 /**
  * Aplica o tema persistido antes da pintura para evitar flash.
- * Padrão: dark. Deve ficar no <head>, o mais cedo possível.
+ * Padrão: light. Deve ficar no <head>, o mais cedo possível.
  */
 ---
 
@@ -9,12 +9,12 @@
   (function () {
     try {
       var stored = localStorage.getItem("qv-theme");
-      var theme = stored === "light" || stored === "dark" ? stored : "dark";
+      var theme = stored === "light" || stored === "dark" ? stored : "light";
       document.documentElement.setAttribute("data-theme", theme);
       document.documentElement.style.colorScheme = theme;
     } catch (e) {
-      document.documentElement.setAttribute("data-theme", "dark");
-      document.documentElement.style.colorScheme = "dark";
+      document.documentElement.setAttribute("data-theme", "light");
+      document.documentElement.style.colorScheme = "light";
     }
   })();
 </script>

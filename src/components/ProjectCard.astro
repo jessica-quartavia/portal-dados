@@ -2,7 +2,7 @@
 import LayoutDashboard from "@lucide/astro/icons/layout-dashboard";
 import ChartNoAxesCombined from "@lucide/astro/icons/chart-no-axes-combined";
 import BookOpen from "@lucide/astro/icons/book-open";
-import Route from "@lucide/astro/icons/route";
+import Globe from "@lucide/astro/icons/globe";
 import ArrowRight from "@lucide/astro/icons/arrow-right";
 import ExternalLink from "@lucide/astro/icons/external-link";
 import type { PortalProject } from "../data/portal";
@@ -24,7 +24,7 @@ const { title, category, description, href, external, icon, cta, meta, featured 
   <div class="project-card__body">
     <div class="project-card__top">
       <div class="project-card__icon" aria-hidden="true">
-        {icon === "route" && <Route size={22} stroke-width={1.75} />}
+        {icon === "globe" && <Globe size={22} stroke-width={1.75} />}
         {icon === "layout-dashboard" && <LayoutDashboard size={20} stroke-width={1.75} />}
         {icon === "chart-no-axes-combined" && <ChartNoAxesCombined size={20} stroke-width={1.75} />}
         {icon === "book-open" && <BookOpen size={20} stroke-width={1.75} />}
@@ -131,6 +131,7 @@ const { title, category, description, href, external, icon, cta, meta, featured 
   .project-card--featured .project-card__icon {
     width: 48px;
     height: 48px;
+    border-radius: 50%;
     color: var(--color-primary);
     background: var(--color-primary-tint);
     border-color: transparent;

@@ -10,7 +10,7 @@ const { class: className = "" } = Astro.props;
   type="button"
   class:list={["theme-toggle", className]}
   data-theme-toggle
-  aria-label="Ativar modo claro"
+  aria-label="Ativar modo escuro"
   title="Alternar tema"
 >
   <svg class="theme-toggle__icon theme-toggle__icon--sun" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -27,7 +27,7 @@ const { class: className = "" } = Astro.props;
 
   function currentTheme(): "light" | "dark" {
     const attr = document.documentElement.getAttribute("data-theme");
-    return attr === "light" ? "light" : "dark";
+    return attr === "dark" ? "dark" : "light";
   }
 
   function syncToggle(button: HTMLButtonElement, theme: "light" | "dark") {
@@ -100,12 +100,12 @@ const { class: className = "" } = Astro.props;
     display: none;
   }
 
-  :global([data-theme="dark"]) .theme-toggle__icon--sun,
-  :global(html:not([data-theme])) .theme-toggle__icon--sun {
+  :global([data-theme="dark"]) .theme-toggle__icon--sun {
     display: block;
   }
 
-  :global([data-theme="light"]) .theme-toggle__icon--moon {
+  :global([data-theme="light"]) .theme-toggle__icon--moon,
+  :global(html:not([data-theme])) .theme-toggle__icon--moon {
     display: block;
   }
 </style>

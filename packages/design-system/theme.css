@@ -12,22 +12,22 @@
   --color-primary-soft: #f0c4a4;
   --color-primary-tint: rgba(224, 122, 50, 0.12);
 
-  /* Dark (padrão) */
-  --color-bg: #111110;
-  --color-surface: #1a1917;
-  --color-surface-2: #232220;
-  --color-overlay: rgba(10, 10, 9, 0.62);
+  /* Light (padrão) */
+  --color-bg: #f3f1ec;
+  --color-surface: #faf8f4;
+  --color-surface-2: #efece6;
+  --color-overlay: rgba(17, 16, 14, 0.4);
 
   /* Bordas */
-  --color-border: #2a2926;
-  --color-border-strong: #3d3b36;
+  --color-border: #e4e0d8;
+  --color-border-strong: #d2cdc3;
   --color-border-focus: #e07a32;
-  --color-header-border: rgba(245, 242, 237, 0.06);
+  --color-header-border: rgba(23, 20, 17, 0.07);
 
   /* Texto */
-  --color-text: #eeebe6;
-  --color-text-muted: #b0aaa2;
-  --color-text-subtle: #7d776f;
+  --color-text: #171411;
+  --color-text-muted: #5c564e;
+  --color-text-subtle: #7a746b;
   --color-text-on-primary: #ffffff;
   --color-link: #e07a32;
 
@@ -50,9 +50,9 @@
   --chart-6: #56d4dd;
   --chart-7: #ea6c4c;
   --chart-8: #d18426;
-  --chart-grid: #2f2c28;
-  --chart-axis: #81786e;
-  --chart-tooltip-bg: #252320;
+  --chart-grid: #e4e0d8;
+  --chart-axis: #7a746b;
+  --chart-tooltip-bg: #faf8f4;
 
   /* Tipografia — system stack (sem webfont) */
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -92,15 +92,15 @@
   --radius-full: 9999px;
 
   /* Sombras base */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.32);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
-  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.22);
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.22);
-  --shadow-card-hover: 0 8px 28px rgba(0, 0, 0, 0.32);
+  --shadow-sm: 0 1px 2px rgba(23, 20, 17, 0.04);
+  --shadow-md: 0 4px 12px rgba(23, 20, 17, 0.05);
+  --shadow-lg: 0 12px 28px rgba(23, 20, 17, 0.07);
+  --shadow-soft: none;
+  --shadow-card: none;
+  --shadow-card-hover: none;
   --shadow-hover: var(--shadow-card-hover);
-  --shadow-btn-primary: 0 2px 8px rgba(224, 122, 50, 0.22);
-  --shadow-btn-primary-hover: 0 4px 12px rgba(224, 122, 50, 0.28);
+  --shadow-btn-primary: 0 2px 8px rgba(224, 122, 50, 0.16);
+  --shadow-btn-primary-hover: 0 4px 12px rgba(224, 122, 50, 0.22);
   --shadow-header: none;
   --container-max: 1400px;
 
@@ -109,43 +109,43 @@
   --gradient-primary: #e07a32;
 
   /* Header */
-  --header-bg: rgba(17, 17, 16, 0.78);
+  --header-bg: rgba(243, 241, 236, 0.82);
   --header-blur: blur(18px) saturate(1.2);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
-[data-theme="light"] {
-  --color-bg: #f3f1ec;
-  --color-surface: #faf8f4;
-  --color-surface-2: #efece6;
-  --color-overlay: rgba(17, 16, 14, 0.4);
-  --color-border: #e4e0d8;
-  --color-border-strong: #d2cdc3;
-  --color-header-border: rgba(23, 20, 17, 0.07);
-  --color-text: #171411;
-  --color-text-muted: #5c564e;
-  --color-text-subtle: #7a746b;
+[data-theme="dark"] {
+  --color-bg: #111110;
+  --color-surface: #1a1917;
+  --color-surface-2: #232220;
+  --color-overlay: rgba(10, 10, 9, 0.62);
+  --color-border: #2a2926;
+  --color-border-strong: #3d3b36;
+  --color-header-border: rgba(245, 242, 237, 0.06);
+  --color-text: #eeebe6;
+  --color-text-muted: #b0aaa2;
+  --color-text-subtle: #7d776f;
   --color-text-on-primary: #ffffff;
-  --color-success-soft: rgba(34, 164, 90, 0.1);
-  --color-warning-soft: rgba(209, 132, 38, 0.1);
-  --color-danger-soft: rgba(234, 108, 76, 0.1);
-  --color-info-soft: rgba(59, 130, 246, 0.1);
-  --chart-grid: #e4e0d8;
-  --chart-axis: #7a746b;
-  --chart-tooltip-bg: #faf8f4;
-  --shadow-sm: 0 1px 2px rgba(23, 20, 17, 0.04);
-  --shadow-md: 0 4px 12px rgba(23, 20, 17, 0.05);
-  --shadow-lg: 0 12px 28px rgba(23, 20, 17, 0.07);
-  --shadow-soft: none;
-  --shadow-card: none;
-  --shadow-card-hover: none;
-  --shadow-btn-primary: 0 2px 8px rgba(224, 122, 50, 0.16);
-  --shadow-btn-primary-hover: 0 4px 12px rgba(224, 122, 50, 0.22);
+  --color-success-soft: rgba(34, 164, 90, 0.14);
+  --color-warning-soft: rgba(209, 132, 38, 0.14);
+  --color-danger-soft: rgba(234, 108, 76, 0.14);
+  --color-info-soft: rgba(59, 130, 246, 0.14);
+  --chart-grid: #2f2c28;
+  --chart-axis: #81786e;
+  --chart-tooltip-bg: #252320;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.32);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.22);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.22);
+  --shadow-card-hover: 0 8px 28px rgba(0, 0, 0, 0.32);
+  --shadow-btn-primary: 0 2px 8px rgba(224, 122, 50, 0.22);
+  --shadow-btn-primary-hover: 0 4px 12px rgba(224, 122, 50, 0.28);
   --shadow-header: none;
   --gradient-card: none;
-  --header-bg: rgba(243, 241, 236, 0.82);
-  color-scheme: light;
+  --header-bg: rgba(17, 17, 16, 0.78);
+  color-scheme: dark;
 }
 
 /* --------------------------------------------------------------------------
