@@ -88,11 +88,14 @@ export const dashboards: DashboardEntry[] = [
 
 export const visibleDashboards = dashboards.filter((d) => !d.devOnly);
 
-export type PortalProjectIcon =
-  | "globe"
+export type PortalLucideIcon =
   | "layout-dashboard"
   | "chart-no-axes-combined"
   | "book-open";
+
+export type PortalProjectIcon =
+  | { type: "lucide"; name: PortalLucideIcon }
+  | { type: "image"; src: string; alt: string };
 
 export type PortalProject = {
   slug: string;
@@ -105,6 +108,7 @@ export type PortalProject = {
   cta: string;
   meta?: string;
   featured?: boolean;
+  statusBadge?: string;
 };
 
 export function getPortalProjects(): PortalProject[] {
@@ -121,7 +125,7 @@ export function getPortalProjects(): PortalProject[] {
         "Portal analítico da Jornada do Cliente, reunindo indicadores, análises e insights sobre comportamento, operação, permanência e experiência dos clientes da QuartaVia.",
       href: "https://dash-simplificado.vercel.app/#executive",
       external: true,
-      icon: "globe",
+      icon: { type: "image", src: "/icons/favicon-qv.ico", alt: "QuartaVia" },
       cta: "Abrir jornada do cliente",
       featured: true,
     },
@@ -133,7 +137,7 @@ export function getPortalProjects(): PortalProject[] {
         "Indicadores, análises e acompanhamento das principais áreas e operações da QuartaVia.",
       href: "/dashboards",
       external: false,
-      icon: "layout-dashboard",
+      icon: { type: "lucide", name: "layout-dashboard" },
       cta: "Explorar dashboards",
       meta: `${count} dashboard${count === 1 ? "" : "s"} disponíve${count === 1 ? "l" : "is"}`,
     },
@@ -145,8 +149,20 @@ export function getPortalProjects(): PortalProject[] {
         "Painel de estudos e análises do time de Inteligência, com visão consolidada de indicadores, dados operacionais e análises estratégicas.",
       href: "https://dash-jornada-cliente-dados-automacao.vercel.app/",
       external: true,
-      icon: "chart-no-axes-combined",
+      icon: { type: "lucide", name: "chart-no-axes-combined" },
       cta: "Acessar dashboard",
+    },
+    {
+      slug: "dashboard-app-pharus",
+      title: "Dashboard App Pharus",
+      category: "App Pharus",
+      description:
+        "Dashboard de acompanhamento do App Pharus, reunindo indicadores, análises e informações operacionais da plataforma.",
+      href: "https://dash-app-pharus.vercel.app/",
+      external: true,
+      icon: { type: "image", src: "/icons/pharus-logo.png", alt: "App Pharus" },
+      cta: "Acessar dashboard",
+      statusBadge: "Em construção",
     },
     {
       slug: "documentacao-ferramentas",
@@ -156,7 +172,7 @@ export function getPortalProjects(): PortalProject[] {
         "Central de documentação das ferramentas, automações e integrações utilizadas pelos times da QuartaVia.",
       href: "https://quartavia-documentacao.vercel.app/",
       external: true,
-      icon: "book-open",
+      icon: { type: "lucide", name: "book-open" },
       cta: "Acessar documentação",
     },
   ];
