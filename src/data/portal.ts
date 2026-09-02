@@ -91,7 +91,8 @@ export const visibleDashboards = dashboards.filter((d) => !d.devOnly);
 export type PortalLucideIcon =
   | "layout-dashboard"
   | "chart-no-axes-combined"
-  | "book-open";
+  | "book-open"
+  | "activity";
 
 export type PortalProjectIcon =
   | { type: "lucide"; name: PortalLucideIcon }
@@ -163,6 +164,17 @@ export function getPortalProjects(): PortalProject[] {
       icon: { type: "image", src: "/icons/pharus-logo.png", alt: "App Pharus" },
       cta: "Acessar dashboard",
       statusBadge: "Em construção",
+    },
+    {
+      slug: "dashboard-operacoes",
+      title: "Dashboard Operações",
+      category: "Operações",
+      description:
+        "Dashboard de acompanhamento das operações, reunindo indicadores, análises e informações operacionais para acompanhamento do time.",
+      href: "https://dash-operacoes-omega.vercel.app/",
+      external: true,
+      icon: { type: "lucide", name: "activity" },
+      cta: "Acessar dashboard",
     },
     {
       slug: "documentacao-ferramentas",

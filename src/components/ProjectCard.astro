@@ -2,6 +2,7 @@
 import LayoutDashboard from "@lucide/astro/icons/layout-dashboard";
 import ChartNoAxesCombined from "@lucide/astro/icons/chart-no-axes-combined";
 import BookOpen from "@lucide/astro/icons/book-open";
+import Activity from "@lucide/astro/icons/activity";
 import ArrowRight from "@lucide/astro/icons/arrow-right";
 import ExternalLink from "@lucide/astro/icons/external-link";
 import type { PortalProject } from "../data/portal";
@@ -45,6 +46,8 @@ const isImageIcon = icon.type === "image";
           <LayoutDashboard size={20} stroke-width={1.75} />
         ) : icon.name === "chart-no-axes-combined" ? (
           <ChartNoAxesCombined size={20} stroke-width={1.75} />
+        ) : icon.name === "activity" ? (
+          <Activity size={20} stroke-width={1.75} />
         ) : (
           <BookOpen size={20} stroke-width={1.75} />
         )}
