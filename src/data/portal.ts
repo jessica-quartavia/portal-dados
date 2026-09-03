@@ -105,35 +105,37 @@ export type InternalSection = {
   items: InternalLegacyItem[];
 };
 
-export function getInternalSections(): InternalSection[] {
-  const legacyItems: InternalLegacyItem[] = [
-    {
-      slug: "dashboard-geral",
-      title: "Dashboard Geral Inteligência",
-      description:
-        "Painel de estudos e análises do time de Inteligência, com visão consolidada de indicadores, dados operacionais e análises estratégicas.",
-      href: "https://dash-jornada-cliente-dados-automacao.vercel.app/",
-      tag: "Analytics",
-      external: true,
-    },
-    ...visibleDashboards.map((d) => ({
-      slug: d.slug,
-      title: d.titulo,
-      description: d.descricao,
-      href: dashboardHref(d),
-      tag: d.tag,
-      external: Boolean(d.href?.startsWith("http")),
-      localService: d.localService,
-    })),
-  ];
+export function getInternalCurrentDashboard(): InternalLegacyItem {
+  return {
+    slug: "dashboard-geral",
+    title: "Dashboard Geral Inteligência",
+    description:
+      "Painel de estudos e análises do time de Inteligência, com visão consolidada de indicadores, dados operacionais e análises estratégicas.",
+    href: "https://dash-jornada-cliente-dados-automacao.vercel.app/",
+    tag: "Analytics",
+    external: true,
+  };
+}
 
+export function getInternalLegacyItems(): InternalLegacyItem[] {
+  return visibleDashboards.map((d) => ({
+    slug: d.slug,
+    title: d.titulo,
+    description: d.descricao,
+    href: dashboardHref(d),
+    tag: d.tag,
+    external: Boolean(d.href?.startsWith("http")),
+    localService: d.localService,
+  }));
+}
+
+export function getInternalSections(): InternalSection[] {
   return [
     {
       id: "legacy",
       title: "Conteúdo antigo",
-      description:
-        "Dashboards e análises anteriores mantidos para consulta e referência.",
-      items: legacyItems,
+      description: "Dashboards e painéis legados mantidos para consulta.",
+      items: getInternalLegacyItems(),
     },
   ];
 }

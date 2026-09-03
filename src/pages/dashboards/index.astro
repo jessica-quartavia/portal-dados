@@ -2,10 +2,15 @@
 export const prerender = false;
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import CurrentInternalCard from "../../components/CurrentInternalCard.astro";
 import LegacyInternalCard from "../../components/LegacyInternalCard.astro";
 import Lock from "@lucide/astro/icons/lock";
-import { getInternalSections } from "../../data/portal";
+import {
+  getInternalCurrentDashboard,
+  getInternalSections,
+} from "../../data/portal";
 
+const currentDashboard = getInternalCurrentDashboard();
 const sections = getInternalSections();
 const legacySection = sections.find((section) => section.id === "legacy");
 const legacyItems = legacySection?.items ?? [];
@@ -36,9 +41,16 @@ const total = legacyItems.length;
     </div>
   </div>
 
+  <section class="internal-current" aria-label="Dashboard em uso">
+    <CurrentInternalCard item={currentDashboard} />
+  </section>
+
   {
     sections.map((section) => (
-      <section class="internal-section" aria-labelledby={`section-${section.id}`}>
+      <section
+        class="internal-section internal-section--legacy"
+        aria-labelledby={`section-${section.id}`}
+      >
         <div class="internal-section__header">
           <div>
             <h2 id={`section-${section.id}`} class="internal-section__title">
@@ -182,8 +194,8 @@ const total = legacyItems.length;
   }
 
   .portal-hero {
-    padding: 0 0 var(--space-6);
-    margin-bottom: var(--space-6);
+    padding: 0 0 var(--space-5);
+    margin-bottom: var(--space-5);
   }
 
   .portal-hero__eyebrow {
@@ -229,8 +241,18 @@ const total = legacyItems.length;
     line-height: var(--lh-relaxed);
   }
 
+  .internal-current {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+
   .internal-section {
     margin-bottom: var(--space-7);
+  }
+
+  .internal-section--legacy {
+    padding-top: var(--space-2);
   }
 
   .internal-section__header {
@@ -373,5 +395,10 @@ const total = legacyItems.length;
     .portal-search { width: 100%; }
     .portal-search__input,
     .portal-search__input:focus { width: 100%; }
+
+    .internal-current {
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-6);
+    }
   }
 </style>

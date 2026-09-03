@@ -1,0 +1,48 @@
+---
+import type { InternalLegacyItem } from "../data/portal";
+
+interface Props {
+  item: InternalLegacyItem;
+}
+
+const { item } = Astro.props;
+const isExternal = item.external || item.href.startsWith("http");
+---
+
+<a
+  class:list={["qv-card", "qv-dash-card", "qv-dash-card--current"]}
+  href={item.href}
+  target={isExternal ? "_blank" : undefined}
+  rel={isExternal ? "noopener noreferrer" : undefined}
+>
+  <div class="qv-dash-card__meta">
+    <span class="qv-dash-card__tag">{item.tag}</span>
+    <span class="qv-dash-card__current-badge">Em uso</span>
+  </div>
+  <h2 class="qv-dash-card__title">{item.title}</h2>
+  <p class="qv-dash-card__desc">{item.description}</p>
+  <span class="qv-dash-card__cta">
+    Abrir painel
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M3.5 2.5H8.5V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2.5 9.5L8.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+</a>
+
+<style>
+  .qv-dash-card--current {
+    max-width: 720px;
+  }
+
+  .qv-dash-card__current-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    background: var(--color-primary-tint);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+  }
+</style>
