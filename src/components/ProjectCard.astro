@@ -3,6 +3,7 @@ import LayoutDashboard from "@lucide/astro/icons/layout-dashboard";
 import ChartNoAxesCombined from "@lucide/astro/icons/chart-no-axes-combined";
 import BookOpen from "@lucide/astro/icons/book-open";
 import Activity from "@lucide/astro/icons/activity";
+import Lock from "@lucide/astro/icons/lock";
 import ArrowRight from "@lucide/astro/icons/arrow-right";
 import ExternalLink from "@lucide/astro/icons/external-link";
 import type { PortalProject } from "../data/portal";
@@ -12,12 +13,16 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, category, description, href, external, icon, cta, meta, featured, statusBadge } = project;
+const { title, category, description, href, external, icon, cta, meta, featured, statusBadge, restrictedAccess } = project;
 const isImageIcon = icon.type === "image";
 ---
 
 <a
-  class:list={["project-card", featured && "project-card--featured"]}
+  class:list={[
+    "project-card",
+    featured && "project-card--featured",
+    restrictedAccess && "project-card--restricted",
+  ]}
   href={href}
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
@@ -48,11 +53,19 @@ const isImageIcon = icon.type === "image";
           <ChartNoAxesCombined size={20} stroke-width={1.75} />
         ) : icon.name === "activity" ? (
           <Activity size={20} stroke-width={1.75} />
+        ) : icon.name === "lock" ? (
+          <Lock size={20} stroke-width={1.75} />
         ) : (
           <BookOpen size={20} stroke-width={1.75} />
         )}
       </div>
       <div class="project-card__badges">
+        {restrictedAccess && (
+          <span class="project-card__restricted">
+            <Lock size={11} stroke-width={2} aria-hidden="true" />
+            Acesso restrito
+          </span>
+        )}
         {statusBadge && <span class="project-card__status">{statusBadge}</span>}
         {featured && <span class="project-card__badge">Principal</span>}
       </div>
@@ -206,6 +219,32 @@ const isImageIcon = icon.type === "image";
     padding: 4px 9px;
     border-radius: var(--radius-full);
     white-space: nowrap;
+  }
+
+  .project-card--restricted .project-card__icon {
+    color: var(--color-text-muted);
+    background: var(--color-surface-2);
+    border-color: var(--color-border);
+  }
+
+  .project-card__restricted {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-text-muted);
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    padding: 4px 9px;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+
+  .project-card__restricted svg {
+    flex-shrink: 0;
+    opacity: 0.85;
   }
 
   .project-card__status {

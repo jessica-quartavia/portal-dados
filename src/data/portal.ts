@@ -88,11 +88,62 @@ export const dashboards: DashboardEntry[] = [
 
 export const visibleDashboards = dashboards.filter((d) => !d.devOnly);
 
+export type InternalLegacyItem = {
+  slug: string;
+  title: string;
+  description: string;
+  href: string;
+  tag: string;
+  external?: boolean;
+  localService?: boolean;
+};
+
+export type InternalSection = {
+  id: string;
+  title: string;
+  description?: string;
+  items: InternalLegacyItem[];
+};
+
+export function getInternalSections(): InternalSection[] {
+  const legacyItems: InternalLegacyItem[] = [
+    {
+      slug: "dashboard-geral",
+      title: "Dashboard Geral Inteligência",
+      description:
+        "Painel de estudos e análises do time de Inteligência, com visão consolidada de indicadores, dados operacionais e análises estratégicas.",
+      href: "https://dash-jornada-cliente-dados-automacao.vercel.app/",
+      tag: "Analytics",
+      external: true,
+    },
+    ...visibleDashboards.map((d) => ({
+      slug: d.slug,
+      title: d.titulo,
+      description: d.descricao,
+      href: dashboardHref(d),
+      tag: d.tag,
+      external: Boolean(d.href?.startsWith("http")),
+      localService: d.localService,
+    })),
+  ];
+
+  return [
+    {
+      id: "legacy",
+      title: "Conteúdo antigo",
+      description:
+        "Dashboards e análises anteriores mantidos para consulta e referência.",
+      items: legacyItems,
+    },
+  ];
+}
+
 export type PortalLucideIcon =
   | "layout-dashboard"
   | "chart-no-axes-combined"
   | "book-open"
-  | "activity";
+  | "activity"
+  | "lock";
 
 export type PortalProjectIcon =
   | { type: "lucide"; name: PortalLucideIcon }
@@ -110,12 +161,27 @@ export type PortalProject = {
   meta?: string;
   featured?: boolean;
   statusBadge?: string;
+  restrictedAccess?: boolean;
 };
 
-export function getPortalProjects(): PortalProject[] {
-  const count = visibleDashboards.length;
+export function getInternalPortalProject(): PortalProject {
+  return {
+    slug: "interno-inteligencia",
+    title: "Interno Inteligência",
+    category: "INTERNO",
+    description:
+      "Dashboards, estudos e análises de uso interno do time de Inteligência.",
+    href: "/dashboards",
+    external: false,
+    icon: { type: "lucide", name: "lock" },
+    cta: "Acessar área interna",
+    restrictedAccess: true,
+  };
+}
 
+export function getPortalProjects(): PortalProject[] {
   // A ordem deste array define a Home. O primeiro item deve permanecer em destaque.
+  // O card Interno Inteligência é renderizado separadamente (allowlist).
 
   return [
     {
@@ -129,29 +195,6 @@ export function getPortalProjects(): PortalProject[] {
       icon: { type: "image", src: "/icons/favicon-qv.ico", alt: "QuartaVia" },
       cta: "Abrir jornada do cliente",
       featured: true,
-    },
-    {
-      slug: "dashboards",
-      title: "Dashboards",
-      category: "Interno",
-      description:
-        "Indicadores, análises e acompanhamento das principais áreas e operações da QuartaVia.",
-      href: "/dashboards",
-      external: false,
-      icon: { type: "lucide", name: "layout-dashboard" },
-      cta: "Explorar dashboards",
-      meta: `${count} dashboard${count === 1 ? "" : "s"} disponíve${count === 1 ? "l" : "is"}`,
-    },
-    {
-      slug: "dashboard-geral",
-      title: "Dashboard Geral Inteligência",
-      category: "Analytics",
-      description:
-        "Painel de estudos e análises do time de Inteligência, com visão consolidada de indicadores, dados operacionais e análises estratégicas.",
-      href: "https://dash-jornada-cliente-dados-automacao.vercel.app/",
-      external: true,
-      icon: { type: "lucide", name: "chart-no-axes-combined" },
-      cta: "Acessar dashboard",
     },
     {
       slug: "dashboard-app-pharus",

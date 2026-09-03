@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import InternoInteligenciaCard from "../components/InternoInteligenciaCard.astro";
 import { getPortalProjects } from "../data/portal";
 
 let featured;
@@ -48,6 +49,7 @@ try {
     </div>
 
     <div class="portal-catalog__grid">
+      <InternoInteligenciaCard />
       {catalog.map((project) => (
         <ProjectCard project={project} />
       ))}

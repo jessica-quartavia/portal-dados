@@ -1,12 +1,14 @@
 ﻿import { defineMiddleware } from 'astro:middleware';
 import { createAuthServerClient } from './lib/supabase-server';
 import { isAllowedEmail } from './lib/auth';
+import {
+  isIntelligenceAllowedEmail,
+  isIntelligencePath,
+} from './lib/intelligence-access';
 
 const PUBLIC_PATHS = new Set([
   '/login',
   '/auth/callback',
-  '/dashboards/produtos',
-  '/dashboards/iapmai26-agendamentos',
 ]);
 
 function isPublic(pathname: string): boolean {
@@ -49,6 +51,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
         // signOut falhou — ainda assim bloqueia o acesso
       }
       return context.redirect('/login?error=unauthorized_domain');
+    }
+
+    if (isIntelligencePath(pathname) && !isIntelligenceAllowedEmail(data.session.user.email)) {
+      return context.redirect('/?error=restricted');
     }
 
     return next();

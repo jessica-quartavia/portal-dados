@@ -1,0 +1,116 @@
+---
+import type { InternalLegacyItem } from "../data/portal";
+
+interface Props {
+  item: InternalLegacyItem;
+}
+
+const { item } = Astro.props;
+const isExternal = item.external || item.href.startsWith("http");
+---
+
+<a
+  class:list={[
+    "qv-col-4",
+    "qv-card",
+    "qv-dash-card",
+    "qv-dash-card--legacy",
+    item.localService && "qv-dash-card--local",
+  ]}
+  href={item.href}
+  target={isExternal ? "_blank" : undefined}
+  rel={isExternal ? "noopener noreferrer" : undefined}
+  data-dash-card
+  data-search={`${item.title} ${item.tag} ${item.description}`}
+>
+  <div class="qv-dash-card__meta">
+    <span class="qv-dash-card__tag qv-dash-card__tag--legacy">{item.tag}</span>
+    <span class="qv-dash-card__legacy-badge">Legado</span>
+    {item.localService && <span class="qv-dash-card__local qv-dash-card__local--legacy">Serviço local</span>}
+  </div>
+  <h2 class="qv-dash-card__title">{item.title}</h2>
+  <p class="qv-dash-card__desc">{item.description}</p>
+  <span class="qv-dash-card__cta">
+    {isExternal ? "Abrir painel" : "Abrir painel"}
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      {isExternal ? (
+        <>
+          <path d="M3.5 2.5H8.5V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2.5 9.5L8.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </>
+      ) : (
+        <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      )}
+    </svg>
+  </span>
+</a>
+
+<style>
+  .qv-dash-card--legacy {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    opacity: 0.92;
+  }
+
+  .qv-dash-card--legacy:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-2);
+    transform: translateY(-1px);
+    opacity: 1;
+  }
+
+  .qv-dash-card--legacy .qv-dash-card__title {
+    color: var(--color-text-muted);
+  }
+
+  .qv-dash-card--legacy:hover .qv-dash-card__title {
+    color: var(--color-text);
+  }
+
+  .qv-dash-card--legacy .qv-dash-card__desc {
+    color: var(--color-text-subtle);
+  }
+
+  .qv-dash-card--legacy .qv-dash-card__cta {
+    color: var(--color-text-subtle);
+  }
+
+  .qv-dash-card--legacy:hover .qv-dash-card__cta {
+    color: var(--color-text-muted);
+  }
+
+  .qv-dash-card__tag--legacy {
+    background: var(--color-surface-2);
+    color: var(--color-text-subtle);
+    border: 1px solid var(--color-border);
+  }
+
+  .qv-dash-card__legacy-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-subtle);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    padding: 2px 7px;
+    border-radius: var(--radius-full);
+  }
+
+  .qv-dash-card__local--legacy {
+    background: var(--color-surface-2);
+    color: var(--color-text-subtle);
+    border: 1px solid var(--color-border);
+  }
+
+  .qv-dash-card--legacy.qv-dash-card--local {
+    border-style: dashed;
+    opacity: 0.88;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .qv-dash-card--legacy:hover {
+      transform: none;
+    }
+  }
+</style>

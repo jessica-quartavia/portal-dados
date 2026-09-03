@@ -1,0 +1,38 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import { getInternalPortalProject } from "../data/portal";
+
+const project = getInternalPortalProject();
+---
+
+<div id="interno-inteligencia-card" class="interno-card-host" hidden>
+  <ProjectCard project={project} />
+</div>
+
+<script>
+  import { getAuthSupabase } from "../lib/supabaseAuthClient";
+  import { isIntelligenceAllowedEmail } from "../lib/intelligence-access";
+
+  async function revealIfAllowed() {
+    const host = document.getElementById("interno-inteligencia-card");
+    if (!host) return;
+
+    try {
+      const { data } = await getAuthSupabase().auth.getSession();
+      if (isIntelligenceAllowedEmail(data.session?.user.email)) {
+        host.hidden = false;
+      }
+    } catch {
+      // permanece oculto
+    }
+  }
+
+  revealIfAllowed();
+  document.addEventListener("astro:page-load", revealIfAllowed);
+</script>
+
+<style>
+  .interno-card-host {
+    display: contents;
+  }
+</style>

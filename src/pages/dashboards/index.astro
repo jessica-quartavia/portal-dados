@@ -1,15 +1,18 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import {
-  visibleDashboards,
-  dashboardHref,
-  dashboardSearchText,
-} from "../../data/portal";
+export const prerender = false;
 
-const total = visibleDashboards.length;
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LegacyInternalCard from "../../components/LegacyInternalCard.astro";
+import Lock from "@lucide/astro/icons/lock";
+import { getInternalSections } from "../../data/portal";
+
+const sections = getInternalSections();
+const legacySection = sections.find((section) => section.id === "legacy");
+const legacyItems = legacySection?.items ?? [];
+const total = legacyItems.length;
 ---
 
-<BaseLayout title="Dashboards" showPortal={false}>
+<BaseLayout title="Interno Inteligência" showPortal={false}>
 
   <a class="portal-back" href="/">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -20,94 +23,92 @@ const total = visibleDashboards.length;
 
   <div class="portal-hero">
     <div class="portal-hero__content">
-      <p class="portal-hero__eyebrow">Dashboards</p>
-      <h1 class="portal-hero__title">Dashboards e análises</h1>
+      <p class="portal-hero__eyebrow">Interno</p>
+      <h1 class="portal-hero__title">
+        <span class="portal-hero__lock" aria-hidden="true">
+          <Lock size={22} stroke-width={1.75} />
+        </span>
+        Interno Inteligência
+      </h1>
       <p class="portal-hero__desc">
-        Acompanhe indicadores e informações das diferentes áreas da QuartaVia.
+        Área restrita de dashboards, estudos e análises do time de Inteligência.
       </p>
     </div>
   </div>
 
-  <div class="portal-section">
+  {
+    sections.map((section) => (
+      <section class="internal-section" aria-labelledby={`section-${section.id}`}>
+        <div class="internal-section__header">
+          <div>
+            <h2 id={`section-${section.id}`} class="internal-section__title">
+              {section.title}
+            </h2>
+            {section.description && (
+              <p class="internal-section__desc">{section.description}</p>
+            )}
+          </div>
+          {section.id === "legacy" && (
+            <p class="internal-section__count" id="dash-count">
+              {total} item{total !== 1 ? "s" : ""}
+            </p>
+          )}
+        </div>
 
-    <div class="portal-section__bar">
-      <p class="portal-section__label" id="dash-count">
-        {total} dashboard{total !== 1 ? "s" : ""} disponíve{total !== 1 ? "is" : "l"}
-      </p>
-
-      <div class="portal-search" role="search">
-        <svg class="portal-search__icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-          <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.4"/>
-          <path d="M10.5 10.5l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-        <input
-          id="dash-search"
-          type="search"
-          class="portal-search__input"
-          placeholder="Buscar dashboard…"
-          autocomplete="off"
-          spellcheck="false"
-          aria-label="Buscar dashboard"
-        />
-        <button
-          id="dash-clear"
-          class="portal-search__clear"
-          type="button"
-          aria-label="Limpar busca"
-          hidden
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="qv-grid qv-grid--portal" id="dash-grid">
-      {
-        visibleDashboards.map((d) => (
-          <a
-            class:list={[
-              "qv-col-4",
-              "qv-card",
-              "qv-dash-card",
-              d.localService && "qv-dash-card--local",
-            ]}
-            href={dashboardHref(d)}
-            data-dash-card
-            data-search={dashboardSearchText(d)}
-          >
-            <div class="qv-dash-card__meta">
-              <span class="qv-dash-card__tag">{d.tag}</span>
-              {d.localService && <span class="qv-dash-card__local">Serviço local</span>}
-            </div>
-            <h2 class="qv-dash-card__title">{d.titulo}</h2>
-            <p class="qv-dash-card__desc">{d.descricao}</p>
-            <span class="qv-dash-card__cta">
-              Abrir painel
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        {section.id === "legacy" && (
+          <div class="portal-section__bar">
+            <div class="portal-search" role="search">
+              <svg class="portal-search__icon" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+                <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M10.5 10.5l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
               </svg>
-            </span>
-          </a>
-        ))
-      }
-    </div>
+              <input
+                id="dash-search"
+                type="search"
+                class="portal-search__input"
+                placeholder="Buscar na seção…"
+                autocomplete="off"
+                spellcheck="false"
+                aria-label="Buscar conteúdo antigo"
+              />
+              <button
+                id="dash-clear"
+                class="portal-search__clear"
+                type="button"
+                aria-label="Limpar busca"
+                hidden
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        )}
 
-    <div id="dash-empty" class="portal-empty" hidden>
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5" opacity=".4"/>
-        <path d="M22 22l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
-        <path d="M10 14h8M14 10v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".25"/>
-      </svg>
-      <p class="portal-empty__title">Nenhum dashboard encontrado</p>
-      <p class="portal-empty__sub">
-        Tente outros termos ou
-        <button id="dash-clear-inline" class="portal-empty__link">limpe a busca</button>
-      </p>
-    </div>
+        <div class="qv-grid qv-grid--portal" id="dash-grid">
+          {section.items.map((item) => (
+            <LegacyInternalCard item={item} />
+          ))}
+        </div>
 
-  </div>
+        {section.id === "legacy" && (
+          <div id="dash-empty" class="portal-empty" hidden>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5" opacity=".4"/>
+              <path d="M22 22l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+              <path d="M10 14h8M14 10v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".25"/>
+            </svg>
+            <p class="portal-empty__title">Nenhum item encontrado</p>
+            <p class="portal-empty__sub">
+              Tente outros termos ou
+              <button id="dash-clear-inline" class="portal-empty__link">limpe a busca</button>
+            </p>
+          </div>
+        )}
+      </section>
+    ))
+  }
 
 </BaseLayout>
 
@@ -116,49 +117,51 @@ const total = visibleDashboards.length;
     return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   }
 
-  const input       = document.getElementById("dash-search")       as HTMLInputElement;
-  const clearBtn    = document.getElementById("dash-clear")        as HTMLButtonElement;
-  const clearInline = document.getElementById("dash-clear-inline") as HTMLButtonElement;
+  const input       = document.getElementById("dash-search")       as HTMLInputElement | null;
+  const clearBtn    = document.getElementById("dash-clear")        as HTMLButtonElement | null;
+  const clearInline = document.getElementById("dash-clear-inline") as HTMLButtonElement | null;
   const cards       = document.querySelectorAll<HTMLElement>("[data-dash-card]");
-  const emptyState  = document.getElementById("dash-empty")        as HTMLDivElement;
-  const countEl     = document.getElementById("dash-count")        as HTMLParagraphElement;
+  const emptyState  = document.getElementById("dash-empty")        as HTMLDivElement | null;
+  const countEl     = document.getElementById("dash-count")        as HTMLParagraphElement | null;
   const total       = cards.length;
 
-  function countLabel(n: number): string {
-    return `${n} dashboard${n !== 1 ? "s" : ""} disponíve${n !== 1 ? "is" : "l"}`;
-  }
-
-  function filter(q: string) {
-    const nq = norm(q.trim());
-    let visible = 0;
-
-    cards.forEach((card) => {
-      const searchData = card.dataset.search ?? "";
-      const match = !nq || norm(searchData).includes(nq);
-      card.style.display = match ? "" : "none";
-      if (match) visible++;
-    });
-
-    emptyState.hidden = visible > 0;
-    clearBtn.hidden = q.length === 0;
-
-    const trimmed = q.trim();
-    if (!trimmed) {
-      countEl.textContent = countLabel(total);
-    } else {
-      countEl.textContent = `${visible} de ${total} resultado${visible !== 1 ? "s" : ""}`;
+  if (input && clearBtn && clearInline && emptyState && countEl) {
+    function countLabel(n: number): string {
+      return `${n} item${n !== 1 ? "s" : ""}`;
     }
-  }
 
-  function clearSearch() {
-    input.value = "";
-    filter("");
-    input.focus();
-  }
+    function filter(q: string) {
+      const nq = norm(q.trim());
+      let visible = 0;
 
-  input.addEventListener("input", (e) => filter((e.target as HTMLInputElement).value));
-  clearBtn.addEventListener("click", clearSearch);
-  clearInline.addEventListener("click", clearSearch);
+      cards.forEach((card) => {
+        const searchData = card.dataset.search ?? "";
+        const match = !nq || norm(searchData).includes(nq);
+        card.style.display = match ? "" : "none";
+        if (match) visible++;
+      });
+
+      emptyState.hidden = visible > 0;
+      clearBtn.hidden = q.length === 0;
+
+      const trimmed = q.trim();
+      if (!trimmed) {
+        countEl.textContent = countLabel(total);
+      } else {
+        countEl.textContent = `${visible} de ${total} resultado${visible !== 1 ? "s" : ""}`;
+      }
+    }
+
+    function clearSearch() {
+      input.value = "";
+      filter("");
+      input.focus();
+    }
+
+    input.addEventListener("input", (e) => filter((e.target as HTMLInputElement).value));
+    clearBtn.addEventListener("click", clearSearch);
+    clearInline.addEventListener("click", clearSearch);
+  }
 </script>
 
 <style>
@@ -180,26 +183,42 @@ const total = visibleDashboards.length;
 
   .portal-hero {
     padding: 0 0 var(--space-6);
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-6);
   }
 
   .portal-hero__eyebrow {
     font-family: var(--font-heading);
     font-size: var(--fs-xs);
-    font-weight: var(--fw-medium);
-    color: var(--color-primary);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text-subtle);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
     margin: 0 0 var(--space-2);
   }
 
   .portal-hero__title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
     font-size: var(--fs-xl);
     font-weight: var(--fw-medium);
     margin: 0 0 var(--space-3);
     letter-spacing: -0.02em;
     line-height: var(--lh-tight);
     color: var(--color-text);
+  }
+
+  .portal-hero__lock {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    flex-shrink: 0;
   }
 
   .portal-hero__desc {
@@ -210,22 +229,52 @@ const total = visibleDashboards.length;
     line-height: var(--lh-relaxed);
   }
 
-  .portal-section__bar {
+  .internal-section {
+    margin-bottom: var(--space-7);
+  }
+
+  .internal-section__header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-4);
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-4);
     flex-wrap: wrap;
   }
 
-  .portal-section__label {
+  .internal-section__title {
+    margin: 0 0 var(--space-2);
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: var(--color-text-muted);
+  }
+
+  .internal-section__desc {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--color-text-subtle);
+    max-width: 42rem;
+    line-height: var(--lh-relaxed);
+  }
+
+  .internal-section__count {
     font-size: var(--fs-xs);
     font-weight: var(--fw-medium);
     color: var(--color-text-subtle);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin: 0;
+    white-space: nowrap;
+  }
+
+  .portal-section__bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+    flex-wrap: wrap;
   }
 
   .portal-search {
@@ -260,8 +309,8 @@ const total = visibleDashboards.length;
   .portal-search__input::-webkit-search-cancel-button { display: none; }
   .portal-search__input::placeholder { color: var(--color-text-subtle); }
   .portal-search__input:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px var(--color-primary-tint);
+    border-color: var(--color-border-strong);
+    box-shadow: none;
     width: 260px;
   }
 
@@ -310,17 +359,17 @@ const total = visibleDashboards.length;
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--color-primary);
+    color: var(--color-text-muted);
     font-size: inherit;
     font-family: inherit;
     padding: 0;
     text-decoration: underline;
     text-underline-offset: 2px;
   }
-  .portal-empty__link:hover { color: var(--color-primary-hover); }
+  .portal-empty__link:hover { color: var(--color-text); }
 
   @media (max-width: 640px) {
-    .portal-section__bar { flex-direction: column; align-items: flex-start; }
+    .portal-section__bar { justify-content: stretch; }
     .portal-search { width: 100%; }
     .portal-search__input,
     .portal-search__input:focus { width: 100%; }
