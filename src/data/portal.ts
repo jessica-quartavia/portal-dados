@@ -145,7 +145,8 @@ export type PortalLucideIcon =
   | "chart-no-axes-combined"
   | "book-open"
   | "activity"
-  | "lock";
+  | "lock"
+  | "list-checks";
 
 export type PortalProjectIcon =
   | { type: "lucide"; name: PortalLucideIcon }
@@ -220,6 +221,17 @@ export function getPortalProjects(): PortalProject[] {
       external: true,
       icon: { type: "lucide", name: "activity" },
       cta: "Acessar dashboard",
+    },
+    {
+      slug: "analytics-squad-f-tasks",
+      title: "Analytics (Squad F) - Tasks",
+      category: "GESTÃO",
+      description:
+        "Planejamento e acompanhamento das tarefas, projetos e entregas do Squad F de Analytics.",
+      href: "https://www.wrike.com/shared/gantt#token=eyJ0IjoiZ2MiLCJhbGciOiJIUzUxMiJ9.eyJhIjo3MjI5MzQ4LCJyIjoiVVMiLCJpZCI6MjY3MDQwNSwiZXhwIjoxODIxMDMxNjk3LCJpYXQiOjE3ODk0OTU2OTd9.wJ1IukyObhxa4HpH97W2MHadD67JxsshYcX8owZ-Puhn4ie6if230V2zb2whw7BppVCCPKPmVbUPJvh5AS69zg",
+      external: true,
+      icon: { type: "lucide", name: "list-checks" },
+      cta: "Abrir tarefas",
     },
     {
       slug: "documentacao-ferramentas",

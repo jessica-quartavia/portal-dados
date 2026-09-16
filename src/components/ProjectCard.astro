@@ -4,6 +4,7 @@ import ChartNoAxesCombined from "@lucide/astro/icons/chart-no-axes-combined";
 import BookOpen from "@lucide/astro/icons/book-open";
 import Activity from "@lucide/astro/icons/activity";
 import Lock from "@lucide/astro/icons/lock";
+import ListChecks from "@lucide/astro/icons/list-checks";
 import ArrowRight from "@lucide/astro/icons/arrow-right";
 import ExternalLink from "@lucide/astro/icons/external-link";
 import type { PortalProject } from "../data/portal";
@@ -55,6 +56,8 @@ const isImageIcon = icon.type === "image";
           <Activity size={20} stroke-width={1.75} />
         ) : icon.name === "lock" ? (
           <Lock size={20} stroke-width={1.75} />
+        ) : icon.name === "list-checks" ? (
+          <ListChecks size={20} stroke-width={1.75} />
         ) : (
           <BookOpen size={20} stroke-width={1.75} />
         )}
