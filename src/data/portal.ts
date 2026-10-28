@@ -146,7 +146,9 @@ export type PortalLucideIcon =
   | "book-open"
   | "activity"
   | "lock"
-  | "list-checks";
+  | "list-checks"
+  | "refresh-cw"
+  | "gauge";
 
 export type PortalProjectIcon =
   | { type: "lucide"; name: PortalLucideIcon }
@@ -220,6 +222,28 @@ export function getPortalProjects(): PortalProject[] {
       href: "https://dash-operacoes-omega.vercel.app/",
       external: true,
       icon: { type: "lucide", name: "activity" },
+      cta: "Acessar dashboard",
+    },
+    {
+      slug: "renovacao-eps",
+      title: "Renovação EPs",
+      category: "RENOVAÇÕES",
+      description:
+        "Acompanhamento de renovações por EP, com indicadores e análises para monitoramento da carteira e dos ciclos de renovação.",
+      href: "https://renovacoes-eps.vercel.app/",
+      external: true,
+      icon: { type: "lucide", name: "refresh-cw" },
+      cta: "Acessar dashboard",
+    },
+    {
+      slug: "performance-wrike",
+      title: "Performance Wrike",
+      category: "PERFORMANCE",
+      description:
+        "Dashboard de acompanhamento de performance, tarefas, responsáveis e indicadores operacionais do Wrike.",
+      href: "https://performance-wrike.vercel.app/",
+      external: true,
+      icon: { type: "lucide", name: "gauge" },
       cta: "Acessar dashboard",
     },
     {
